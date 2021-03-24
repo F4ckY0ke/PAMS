@@ -63,7 +63,7 @@ class MainWindow(QTabWidget, Ui_DOORSYS):
         self.setCurrentIndex(0)  # 设置广告页为首页
 
         self.currentChanged.connect(self.checkTab)  # 绑定单击标签事件
-
+        self.GUANGGAO.setPixmap(QPixmap('./index.png'))
 
         self.timer_camera = QTimer()
         self.timer_flag = QTimer()
