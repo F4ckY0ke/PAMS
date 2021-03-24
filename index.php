@@ -1,3 +1,34 @@
+<?php 
+$ini = parse_ini_file("admin/.dbuser.ini");//读取配置文件
+		// 创建连接
+		$conn = new mysqli($ini["dbservername"], $ini["dbusername"], $ini["dbpassword"], $ini["dbname"]);
+		// Check connection
+		if ($conn->connect_error) {
+		    die("连接失败: " . $conn->connect_error);
+		} 
+		
+		
+		$sql = "SELECT CANSHUVALUE FROM A_CANSHU where CANSHUNAME='GUANLIMOSHI';";
+		$result = $conn->query($sql);
+		 
+		if ($result->num_rows > 0) {
+		    // 输出数据
+		    $moshi = array();
+		    while($row = $result->fetch_assoc()) {
+		        //echo "id: " . $row["id"]. " - Name: " . $row["img"]. " " . $row["name"]. "<br>";
+		        array_push($moshi, $row["CANSHUVALUE"]);
+		        if($moshi[0] == '2' || $moshi[0] == '5'){
+		        	die("不允许访客登记，请联系管理员！");
+		        }
+		    }
+		} else {
+		       echo "<script type=\"text/javascript\">
+		        confirm('加载失败，请重试！');
+		        window.location.href = 'login.html';
+		        </script>";
+		}
+		$conn->close();
+?>
 <!DOCTYPE html>
 <html>
 <head>

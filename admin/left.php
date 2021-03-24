@@ -5,8 +5,8 @@ $admin = false;
 session_start();
 //  判断是否登陆
 if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
-	$admin = $_SESSION["admin"];
 	$adminid = $_SESSION["adminid"];
+	$mode = $_SESSION["mode"];
 } else {
     //  验证失败，将 $_SESSION["admin"] 置为 false
     $_SESSION["admin"] = false;
@@ -40,24 +40,48 @@ body{overflow-x:hidden; background:url(images/main/leftbg.jpg) left top repeat-y
 <body onselectstart="return false;" ondragstart="return false;" oncontextmenu="return false;">
 <div id="left-top">
 	<div><img src="images/main/member.gif" width="44" height="44" /></div>
-    <span>用户：<?php echo $adminid ?><br>角色：超级管理员</span>
+    <span>用户：<?php echo $adminid ?><br>角色：<?php if($mode == 7){echo "[超级管理员]";}else{echo "[管理员]";}; ?></span>
 </div>
     <div style="float: left" id="my_menu" class="sdmenu">
-      <div>
-        <span>系统设置</span>
-        <a href="main.html" target="mainFrame" onFocus="this.blur()">后台首页</a>
-        <a href="main_list.html" target="mainFrame" onFocus="this.blur()">列表页</a>
-        <a href="main_info.html" target="mainFrame" onFocus="this.blur()">列表详细页</a>
-        <a href="main_message.html" target="mainFrame" onFocus="this.blur()">留言页</a>
-        <a href="main_menu.html" target="mainFrame" onFocus="this.blur()">栏目管理</a>
-      </div>
-      <div>
-        <span>系统设置</span>
-        <a href="main.html" target="mainFrame" onFocus="this.blur()">分组权限</a>
-        <a href="main_list.html" target="mainFrame" onFocus="this.blur()">级别权限</a>
-        <a href="main_info.html" target="mainFrame" onFocus="this.blur()">角色管理</a>
-        <a href="main.html" target="mainFrame" onFocus="this.blur()">自定义权限</a>
-      </div>
+<?php 
+if ($_GET["id"] == '1' || $_GET["id"] == ''){
+	echo"<div>
+			<span>系统管理</span>
+			<a href='main.php' target='mainFrame' onFocus='this.blur()'>系统状态</a>
+			<a href='glms.php' target='mainFrame' onFocus='this.blur()'>管理模式</a>
+			<a href='cssz.php' target='mainFrame' onFocus='this.blur()'>系统参数设置</a>
+			<a href='main_info.html' target='mainFrame' onFocus='this.blur()'>管理员账号</a>
+	      </div>";
+	}
+if ($_GET["id"] == '2'){
+	echo"<div>
+	        <span>数据查询</span>
+			<a href='main_list.html' target='mainFrame' onFocus='this.blur()'>常住人员信息表</a>
+			<a href='main_list.html' target='mainFrame' onFocus='this.blur()'>临时访客信息表</a>
+			<a href='main_info.html' target='mainFrame' onFocus='this.blur()'>人员进出记录</a>
+	      </div>";
+	}
+if ($_GET["id"] == '3'){
+	echo"<div>
+	        <span>人脸管理</span>
+	        <a href='main_info.html' target='mainFrame' onFocus='this.blur()'>人脸库</a>
+	        <a href='main_list.html' target='mainFrame' onFocus='this.blur()'>人脸注册</a>
+	        <a href='main_info.html' target='mainFrame' onFocus='this.blur()'>人脸操作</a>
+	      </div>";
+	}
+if ($_GET["id"] == '4'){
+	echo"<div>
+	        <span>联系我们</span>
+	        <a href='main_list.html' target='mainFrame' onFocus='this.blur()'>关于我们</a>
+	        <a href='main_list.html' target='mainFrame' onFocus='this.blur()'>公司主页</a>
+	      </div>";
+	}
+
+
+
+
+
+?>
     </div>
 </body>
 </html>

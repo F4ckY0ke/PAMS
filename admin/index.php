@@ -1,5 +1,7 @@
 <?php
+
 $admin = false;
+session_start();
 $repassword = $_POST["password"];
 $reusername = $_POST["username"]; 
 if ($reusername != null){
@@ -12,21 +14,24 @@ if ($reusername != null){
 		} 
 		
 		
-		$sql = "SELECT USER,PASSWORD FROM U_ADMIN where USER='$reusername';";
+		$sql = "SELECT USER,PASSWORD,MODE FROM U_ADMIN where USER='$reusername';";
 		$result = $conn->query($sql);
 		 
 		if ($result->num_rows > 0) {
 		    // 输出数据
 		    $admin = array();
 		    $pwd = array();
+		    $mode = array();
 		    while($row = $result->fetch_assoc()) {
 		        //echo "id: " . $row["id"]. " - Name: " . $row["img"]. " " . $row["name"]. "<br>";
 		        array_push($admin, $row["USER"]);
 		        array_push($pwd, $row["PASSWORD"]);
+		        array_push($mode, $row["MODE"]);
 		        if(password_verify($repassword, $pwd[0])){
 		        	session_start();
 		        	$_SESSION["admin"] = true;
 		        	$_SESSION["adminid"] = $admin[0];
+		        	$_SESSION["mode"] = $mode[0];
 		        }
 		        else{
 					echo "<script type=\"text/javascript\">
@@ -49,7 +54,7 @@ if ($reusername != null){
 //  防止全局变量造成安全隐患
 $admin = false;
 //  启动会话，这步必不可少
-session_start();
+
 //  判断是否登陆
 if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	$admin = $_SESSION["admin"];
@@ -77,9 +82,14 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	<frame src="top.php?id=<?php echo $_GET["id"]?>" name="topframe" scrolling="no" noresize id="topframe" title="topframe" />
 <!--contact样式-->
 	<frameset id="attachucp" framespacing="0" border="0" frameborder="no" cols="194,12,*" rows="*">
-		<frame scrolling="auto" noresize="" frameborder="no" name="leftFrame" src="left.php"></frame>
+		<frame scrolling="auto" noresize="" frameborder="no" name="leftFrame" src="left.php?id=<?php echo $_GET["id"]?>"></frame>
 		<frame id="leftbar" scrolling="no" noresize="" name="switchFrame" src="swich.html"></frame>
-		<frame scrolling="auto" noresize="" border="0" name="mainFrame" src="main.php"></frame>
+		<frame scrolling="auto" noresize="" border="0" name="mainFrame" src="<?php 
+if ($_GET["id"] == '1' || $_GET["id"] == ''){echo "main.php";}
+if ($_GET["id"] == '2'){	echo "main_list.html";}
+if ($_GET["id"] == '3'){	echo "main_message.html";}
+if ($_GET["id"] == '4'){	echo "main_info.html";}
+		?>"></frame>
 	</frameset>
 <!--bottom样式-->
 	<frame src="bottom.html" name="bottomFrame" scrolling="No" noresize="noresize" id="bottomFrame" title="bottomFrame" />

@@ -19,7 +19,7 @@
         <td align="right" valign="top" id="header-right">
         	<a href="dessession.php" target="topframe" onFocus="this.blur()" class="admin-out">注销</a>
             <a href="index.php" target="top" onFocus="this.blur()" class="admin-home">管理首页</a>
-        	<a href="index.php" target="_blank" onFocus="this.blur()" class="admin-index">网站首页</a>       	
+        	<a href="../index.php" target="_blank" onFocus="this.blur()" class="admin-index">网站首页</a>       	
             <span>
 <!-- 日历 -->
 <SCRIPT type=text/javascript src="js/clock.js"></SCRIPT>
@@ -35,7 +35,7 @@
       <tr>
         <td align="left" valign="top" id="header-admin">管理系统后台</td>
         <td align="left" valign="bottom" id="header-menu">
-        <a href="index.php?id=1" target="_top" onFocus="this.blur()" <?php if ($_GET["id"] == '1') echo "id='menuon'"?>>后台首页</a>
+        <a href="index.php?id=1" target="_top" onFocus="this.blur()" <?php if ($_GET["id"] == '1' || $_GET["id"] == '') echo "id='menuon'"?>>后台首页</a>
         <a href="index.php?id=2" target="_top" onFocus="this.blur()" <?php if ($_GET["id"] == '2') echo "id='menuon'"?>>数据查询</a>
         <a href="index.php?id=3" target="_top" onFocus="this.blur()" <?php if ($_GET["id"] == '3') echo "id='menuon'"?>>人脸管理</a>
         <a href="index.php?id=4" target="_top" onFocus="this.blur()" <?php if ($_GET["id"] == '4') echo "id='menuon'"?>>联系我们</a>

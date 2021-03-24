@@ -7,7 +7,7 @@ session_start();
 if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	$adminid = $_SESSION["adminid"];
 	$mode = $_SESSION["mode"];
-	if($mode <= '0'){
+	if($mode < '7'){
 		die("您没有权限访问！");
 	}
 } else {
@@ -27,7 +27,14 @@ $ini = parse_ini_file(".dbuser.ini");//读取配置文件
 		} 
 		
 		
-		$sql = "SELECT CANSHUVALUE AS JIEGUO FROM A_CANSHU WHERE CANSHUNAME='GUANLIMOSHI' union all SELECT COUNT(*) FROM U_ADMIN;";
+		$sql = "SELECT CANSHUVALUE AS JIEGUO FROM A_CANSHU WHERE CANSHUNAME = 'APP_ID' UNION ALL
+				SELECT CANSHUVALUE FROM A_CANSHU WHERE CANSHUNAME = 'API_KEY' UNION ALL
+				SELECT CANSHUVALUE FROM A_CANSHU WHERE CANSHUNAME = 'SECRET_KEY' UNION ALL
+				SELECT CANSHUVALUE FROM A_CANSHU WHERE CANSHUNAME = 'QRAPI_KEY' UNION ALL
+				SELECT CANSHUVALUE FROM A_CANSHU WHERE CANSHUNAME = 'QRSECRET_KEY' UNION ALL
+				SELECT CANSHUVALUE FROM A_CANSHU WHERE CANSHUNAME = 'ACCESS_TOKEN' UNION ALL
+				SELECT CANSHUVALUE FROM A_CANSHU WHERE CANSHUNAME = 'TIME_OUT' UNION ALL
+				SELECT CANSHUVALUE FROM A_CANSHU WHERE CANSHUNAME = 'FACE_SCORE';";
 		$result = $conn->query($sql);
 		 
 		if ($result->num_rows > 0) {
@@ -53,6 +60,12 @@ $ini = parse_ini_file(".dbuser.ini");//读取配置文件
 <link href="css/css.css" type="text/css" rel="stylesheet" />
 <link href="css/main.css" type="text/css" rel="stylesheet" />
 <link rel="shortcut icon" href="images/main/favicon.ico" />
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="bootstrap/bootstrap.min.css">  
+<script src="bootstrap/jquery.min.js"></script>
+<script src="bootstrap/bootstrap.min.js"></script>
+
 <style>
 body{overflow-x:hidden; background:#f2f0f5; padding:15px 0px 10px 5px;}
 #main{ font-size:12px;}
@@ -71,42 +84,36 @@ div.main-order{ line-height:30px; padding:10px 0 0 0;}
 </head>
 <body>
 <!--main_top-->
-<table width="99%" border="0" cellspacing="0" cellpadding="0" id="main">
-  <tr>
-    <td colspan="2" align="left" valign="top">
-    <span class="time"><strong>您好！<?php echo $adminid ?></strong><u><?php if($mode == 7){echo "[超级管理员]";}else{echo "[管理员]";}; ?></u></span>
-    
-    </td>
-  </tr>
-  <tr>
-    <td align="left" valign="top" width="50%">
-    <div class="main-tit">网站信息</div>
-    <div class="main-con">
-    访客登记：<?php if( $jieguo[0] == '2' ||  $jieguo[0] == '5'){echo "关闭";}else{echo "开启";};?><br/>
-人脸认证：<?php if( $jieguo[0] == '3' ||  $jieguo[0] == '5'){echo "关闭";}else{echo "开启";};?><br/>
-管理员个数：<font color="#538ec6"><strong><?php echo $jieguo[1];?></strong></font> 人<br/>
-服务器IP：124.71.190.194<br/>
-程序编码：UTF-8<br/>
-    </div>
-    </td>
-    <td align="left" valign="top" width="49%">
-    <div class="main-tit">服务器信息</div>
-    <div class="main-con">
-服务器软件：nginx/1.18.0 (x64) PHP/5.2.5<br/>
-PHP版本：<?php	echo PHP_VERSION;?><br/>
-MYSQL版本：mysql  Ver 8.0.20 for Linux on x86_64<br/>
-负载均衡：开启 (建议开启)<br/>
-使用域名：yoooke.top <br/>
-    </div>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2" align="left" valign="top">
-    <div class="main-corpy">系统提示</div>
-    <div class="main-order">1=>如您在使用过程有发现出错请及时与我们取得联系；为保证您得到我们的后续服务，强烈建议您购买我们的正版系统或向我们定制系统！<br/>
-2=>强烈建议您将IE7以上版本或其他的浏览器</div>
-    </td>
-  </tr>
+<table>
+<tr>
+
+		<td>人脸识别APP_ID：</td>
+		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[0];?>"></td>
+		<td>人脸识别API_KEY：</td>
+		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[1];?>"></td>
+</tr>
+<tr>
+
+		<td>人脸识别SECRET_KEY：</td>
+		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[2];?>"></td>
+		<td>二维码识别API_KEY：</td>
+		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[3];?>"></td>
+</tr>
+<tr>
+		<td>二维码识别SECRET_KEY：</td>
+		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[4];?>"></td>
+		<td>二维码识别ACCESS_TOKEN：</td>
+		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[5];?>"></td>
+</tr>
+<tr>
+		<td>人脸识别等待时间：秒</td>
+		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[6];?>"></td>
+		<td>人脸识别分数阈值：</td>
+		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[7];?>"></td>
+</tr>
+
+
 </table>
+
 </body>
 </html>
