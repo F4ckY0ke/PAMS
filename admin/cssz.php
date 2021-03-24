@@ -80,6 +80,32 @@ div.main-tit{ font-size:14px; font-weight:bold; color:#4e4e4e; background:url(im
 div.main-con{ width:100%; float:left; padding:10px 0 0 20px; line-height:36px;}
 div.main-corpy{ font-size:14px; font-weight:bold; color:#4e4e4e; background:url(images/main/main_r6_c2.jpg) no-repeat 0 33px; width:100%; padding:30px 0 0 20px; float:left}
 div.main-order{ line-height:30px; padding:10px 0 0 0;}
+table tr{
+	text-align:center;
+	height:75px;
+	width:900px;
+	}
+.text1{
+	text-align:right;
+	width:280px;
+	}
+.form-control1 {
+    width: 90%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
 </style>
 </head>
 <body>
@@ -87,31 +113,34 @@ div.main-order{ line-height:30px; padding:10px 0 0 0;}
 <table>
 <tr>
 
-		<td>人脸识别APP_ID：</td>
+		<td class="text1">人脸识别APP_ID：</td>
 		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[0];?>"></td>
-		<td>人脸识别API_KEY：</td>
+		<td class="text1">人脸识别API_KEY：</td>
 		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[1];?>"></td>
 </tr>
 <tr>
 
-		<td>人脸识别SECRET_KEY：</td>
+		<td class="text1">人脸识别SECRET_KEY：</td>
 		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[2];?>"></td>
-		<td>二维码识别API_KEY：</td>
+		<td class="text1">二维码识别API_KEY：</td>
 		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[3];?>"></td>
 </tr>
 <tr>
-		<td>二维码识别SECRET_KEY：</td>
+		<td class="text1">二维码识别SECRET_KEY：</td>
 		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[4];?>"></td>
-		<td>二维码识别ACCESS_TOKEN：</td>
+		<td class="text1">二维码识别ACCESS_TOKEN：</td>
 		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[5];?>"></td>
 </tr>
 <tr>
-		<td>人脸识别等待时间：秒</td>
-		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[6];?>"></td>
-		<td>人脸识别分数阈值：</td>
+		<td class="text1">人脸识别等待时间：</td>
+		<td style="text-align:left"><input type="text" class="form-control1 mb-2" style="width: 200px" id="inlineFormInput" value="<?php echo $jieguo[6];?>">秒
+		</td>
+		<td class="text1">人脸识别分数阈值：</td>
 		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[7];?>"></td>
 </tr>
-
+<tr>
+	<td style="text-align:center" colspan="4"><input type="submit" value="保存" style="width:100px" class="btn btn-primary"></td>
+</tr>
 
 </table>
 
