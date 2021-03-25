@@ -7,7 +7,7 @@ session_start();
 if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	$adminid = $_SESSION["adminid"];
 	$mode = $_SESSION["mode"];
-	if($mode < '4'){
+	if($mode == '0' || $mode == '1' || $mode == '4' || $mode == '5'){
 		die("您没有权限访问！");
 	}
 } else {
@@ -18,9 +18,8 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	   window.location.href = '../login.html';
 	   </script>";
 }
-$user = $_POST["USER"];
-$pwd = $_POST["PASSWORD"];
-if ($_POST["SPASSWORD"] == $_POST["PASSWORD"] && !empty($user) && !empty($pwd)){
+$random = $_POST["RANDOM"];
+if (!empty($random)){
 	$ini = parse_ini_file("../.dbuser.ini");//读取配置文件
 	// 创建连接
 	$con = mysqli_connect($ini["dbservername"], $ini["dbusername"], $ini["dbpassword"], $ini["dbname"]);
@@ -28,26 +27,23 @@ if ($_POST["SPASSWORD"] == $_POST["PASSWORD"] && !empty($user) && !empty($pwd)){
 	if (mysqli_connect_errno($con))
 	{
 	    echo "连接 MySQL 失败: " . mysqli_connect_error();
-	}
-	$options = [
-    'cost' => 10,
-	];
-	$hashpassword = password_hash($_POST["PASSWORD"], PASSWORD_BCRYPT, $options);
-	$sql = "UPDATE U_ADMIN SET PASSWORD='{$hashpassword}',MODE={$_POST["MODE"]},TEL='{$_POST["TEL"]}',NAME='{$_POST["NAME"]}',IDCARD='{$_POST["IDCARD"]}',USER='{$_POST["USER"]}' WHERE USER='{$_GET["id"]}';";
+	};
+
+	$sql = "UPDATE U_VISITOR SET CODEFLAG={$_POST["CODEFLAG"]},RANDOM='{$_POST["RANDOM"]}',IDCARD='{$_POST["IDCARD"]}',TEL='{$_POST["TEL"]}',REGTIME=NOW() WHERE ID={$_GET["id"]};";
 	// 执行查询并输出受影响的行数
 	mysqli_query($con,$sql);
 	if (mysqli_affected_rows($con)==1){
 		mysqli_close($con);
 	echo "<script type=\"text/javascript\">
 			alert('修改成功');
-			window.location.href = 'main_list.php';
+			window.location.href = 'visitortable.php';
 		   </script>";
-	}
+	};
 }
 else{
 	echo "<script type=\"text/javascript\">
-	   confirm('失败！用户名密码为空或两次输入密码不一致。');
-	   window.location.href = 'updateadmin.php?id={$_POST["USER"]}';
+	   confirm('失败！随机二维码不能为空。');
+	   window.location.href = 'updatevisitor.php?id={$_GET["id"]}';
 	   </script>";
 }
 

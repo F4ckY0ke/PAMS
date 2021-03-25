@@ -7,7 +7,7 @@ session_start();
 if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	$adminid = $_SESSION["adminid"];
 	$mode = $_SESSION["mode"];
-	if($mode < '4'){
+	if($mode == '0' || $mode == '1' || $mode == '4' || $mode == '5'){
 		die("您没有权限访问！");
 	}
 } else {
@@ -27,25 +27,25 @@ if ($conn->connect_error) {
 } 
 
 
-$sql = "SELECT USER,PASSWORD,MODE,TEL,NAME,IDCARD FROM U_ADMIN where USER='{$_GET["id"]}';";
+$sql = "SELECT USERFLAG,FACENAME,NAME,IDCARD,TEL,ADDRESS FROM U_LOCAL where ID='{$_GET["id"]}';";
 $result = $conn->query($sql);
  
 if ($result->num_rows > 0) {
     // 输出数据
-    $user = array();
-    $pwd = array();
-    $mode = array();
-    $tel = array();
+    $userflag = array();
+    $facename = array();
     $name = array();
     $idcard = array();
+    $tel = array();
+    $address = array();
     while($row = $result->fetch_assoc()) {
         //echo "id: " . $row["id"]. " - Name: " . $row["img"]. " " . $row["name"]. "<br>";
-        array_push($user, $row["USER"]);
-        array_push($pwd, $row["PASSWORD"]);
-        array_push($mode, $row["MODE"]);
-        array_push($tel, $row["TEL"]);
+        array_push($userflag, $row["USERFLAG"]);
+        array_push($facename, $row["FACENAME"]);
         array_push($name, $row["NAME"]);
         array_push($idcard, $row["IDCARD"]);
+        array_push($tel, $row["TEL"]);
+        array_push($address, $row["ADDRESS"]);
     }
 } else {
        echo "<script type=\"text/javascript\">
@@ -98,70 +98,54 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 
 <table width="99%" border="0" cellspacing="0" cellpadding="0" id="searchmain">
   <tr>
-    <td width="99%" align="left" valign="top">您的位置：管理员账号&nbsp;&nbsp;>&nbsp;&nbsp;更新管理员</td>
+    <td width="99%" align="left" valign="top">您的位置：常住人员管理&nbsp;&nbsp;>&nbsp;&nbsp;更新常住人员</td>
   </tr>
   <tr>
     <td align="left" valign="top" id="addinfo">
-    <a href="add.html" target="mainFrame" onFocus="this.blur()" class="add">更新管理员</a>
+    <a href="add.html" target="mainFrame" onFocus="this.blur()" class="add">更新常住人员</a>
     </td>
   </tr>
   <tr>
     <td align="left" valign="top">
-    <form method="post" action="pushupdateadmin.php?id=<?php echo $_GET["id"] ?>">
+    <form method="post" action="pushupdatelocal.php?id=<?php echo $_GET["id"];?>">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-        <td align="right" valign="middle" class="borderright borderbottom bggray">用户名：</td>
+        <td align="right" valign="middle" class="borderright borderbottom bggray">启用标识：</td>
         <td align="left" valign="middle" class="borderright borderbottom main-for">
-        <input type="text" name="USER" value="<?php echo $user[0];?>" class="text-word">
-*
+		<input type="radio" name="USERFLAG" value="1" <?php if ($userflag[0] == 1){echo "checked='checked'";};?>>启用</br>
+		<input type="radio" name="USERFLAG" value="0" <?php if ($userflag[0] == 0){echo "checked='checked'";};?>>未启用</br>
         </td>
         </tr>
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-        <td align="right" valign="middle" class="borderright borderbottom bggray">用户密码：</td>
+        <td align="right" valign="middle" class="borderright borderbottom bggray">人脸名称：</td>
         <td align="left" valign="middle" class="borderright borderbottom main-for">
-        <input type="password" name="PASSWORD" value="" class="text-word">
+        <input type="text" name="FACENAME" value="<?php echo $facename[0];?>" class="text-word">
 *
         </td>
         </tr>
-      <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-        <td align="right" valign="middle" class="borderright borderbottom bggray">确认密码：</td>
-        <td align="left" valign="middle" class="borderright borderbottom main-for">
-        <input type="password" name="SPASSWORD" value="" class="text-word">
-*
-        </td>
-      </tr>
-      <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-        <td align="right" valign="middle" class="borderright borderbottom bggray">用户权限：</td>
-        <td align="left" valign="middle" class="borderright borderbottom main-for">
-        <select name="MODE" id="level" value="3">
-	    <option <?php if ($mode[0] == 1){echo "selected='selected'";};?> value="1" selected = "selected">&nbsp;&nbsp;1.人脸管理员</option>
-	    <option <?php if ($mode[0] == 2){echo "selected='selected'";};?> value="2" >&nbsp;&nbsp;2.数据管理员</option>
-	    <option <?php if ($mode[0] == 3){echo "selected='selected'";};?> value="3" >&nbsp;&nbsp;3.人脸+数据管理员</option>
-	    <option <?php if ($mode[0] == 4){echo "selected='selected'";};?> value="4" >&nbsp;&nbsp;4.系统管理员</option>
-	    <option <?php if ($mode[0] == 5){echo "selected='selected'";};?> value="5" >&nbsp;&nbsp;5.系统+人脸管理员</option>
-	    <option <?php if ($mode[0] == 6){echo "selected='selected'";};?> value="6" >&nbsp;&nbsp;6.系统+数据管理员</option>
-	    <option <?php if ($mode[0] == 7){echo "selected='selected'";};?> value="7" >&nbsp;&nbsp;7.超级管理员</option>
-        </select>
-*
-        </td>
-      </tr>
-            <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-        <td align="right" valign="middle" class="borderright borderbottom bggray">联系方式：</td>
-        <td align="left" valign="middle" class="borderright borderbottom main-for">
-        <input type="text" name="TEL" value="<?php echo $tel[0];?>" class="text-word">
-        </td>
-      </tr>
-
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="right" valign="middle" class="borderright borderbottom bggray">姓名：</td>
         <td align="left" valign="middle" class="borderright borderbottom main-for">
         <input type="text" name="NAME" value="<?php echo $name[0];?>" class="text-word">
         </td>
       </tr>
-      <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+            <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="right" valign="middle" class="borderright borderbottom bggray">身份证号：</td>
         <td align="left" valign="middle" class="borderright borderbottom main-for">
         <input type="text" name="IDCARD" value="<?php echo $idcard[0];?>" class="text-word">
+        </td>
+      </tr>
+
+      <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+        <td align="right" valign="middle" class="borderright borderbottom bggray">联系方式：</td>
+        <td align="left" valign="middle" class="borderright borderbottom main-for">
+        <input type="text" name="TEL" value="<?php echo $tel[0];?>" class="text-word">
+        </td>
+      </tr>
+      <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+        <td align="right" valign="middle" class="borderright borderbottom bggray">常住地址：</td>
+        <td align="left" valign="middle" class="borderright borderbottom main-for">
+        <input type="text" name="ADDRESS" value="<?php echo $address[0];?>" class="text-word">
         </td>
       </tr>
 

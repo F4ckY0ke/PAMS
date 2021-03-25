@@ -70,18 +70,16 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 $(document).ready(function() {//加载页面处理
 	$('#babyTable').DataTable( {//发送请求把返回的json数据输出到表格babyTable
 		"ajax": {
-			url: "getlocal.php",
+			url: "getvisitor.php",
 			dataSrc: 'Data'//指明数据来源
 		},
 		
 		"columns": [//指定列数据
 			{ "data": "ID" },
-			{ "data": "USERFLAG" },
-			{ "data": "FACENAME" },
-			{ "data": "NAME" },
+			{ "data": "CODEFLAG" },
+			{ "data": "RANDOM" },
 			{ "data": "IDCARD" },
 			{ "data": "TEL" },
-			{ "data": "ADDRESS" },
 			{ "data": "REGTIME" },
 			{//新建一列存放操作按钮
 				className : "td-operation text-center",
@@ -107,7 +105,7 @@ $(document).ready(function() {//加载页面处理
 <!--main_top-->
 <table width="99%" border="0" cellspacing="0" cellpadding="0" id="searchmain">
   <tr>
-    <td width="99%" align="left" valign="top">您的位置：常住人员管理</td>
+    <td width="99%" align="left" valign="top">您的位置：临时访客管理</td>
   </tr>
   <tr>
     <td align="left" valign="top">
@@ -116,7 +114,7 @@ $(document).ready(function() {//加载页面处理
    		 <td width="90%" align="left" valign="middle">
 
          </td>
-  		  <td width="10%" align="center" valign="middle" style="text-align:right; width:150px;"><a href="addlocal.php" target="mainFrame" onFocus="this.blur()" class="add">新增常住人员</a></td>
+  		  <td width="10%" align="center" valign="middle" style="text-align:right; width:150px;"></td>
   		</tr>
 
 	</table>
@@ -131,11 +129,9 @@ $(document).ready(function() {//加载页面处理
       <tr>
         <th align="center" valign="middle" class="borderright">编号</th>
         <th align="center" valign="middle" class="borderright">启用标识</th>
-        <th align="center" valign="middle" class="borderright">人脸名称</th>
-        <th align="center" valign="middle" class="borderright">姓名</th>
+        <th align="center" valign="middle" class="borderright">随机二维码</th>
         <th align="center" valign="middle" class="borderright">身份证号</th>
         <th align="center" valign="middle" class="borderright">联系方式</th>
-        <th align="center" valign="middle" class="borderright">常住地址</th>
         <th align="center" valign="middle" class="borderright">注册时间</th>
         <th align="center" valign="middle">操作</th>
       </tr>
@@ -147,16 +143,16 @@ $(document).ready(function() {//加载页面处理
 <script>
 function sendDel(id){
 	var con;
-	con = confirm("确认删除ID为"+id+"的常住人员么？");//弹出确认对话框
+	con = confirm("确认删除ID为"+id+"的访客信息么？");//弹出确认对话框
 	if(con==true){//单击确认按钮布尔变量为true
-		window.location.href = "dellocal.php?id="+id+"";
+		window.location.href = "delvisitor.php?id="+id+"";
 	}
-	else window.location.href = "localtable.php";//单击取消按钮刷新页面
+	else window.location.href = "visitortable.php";//单击取消按钮刷新页面
 
 }
 
 function sendUpdate(id){
-	window.location.href = "updatelocal.php?id="+id+"";//点击修改按钮将按钮所在行的id以get参数发送给更新页面
+	window.location.href = "updatevisitor.php?id="+id+"";//点击修改按钮将按钮所在行的id以get参数发送给更新页面
 }
 </script>
 </body>

@@ -57,7 +57,7 @@ if ($_GET["id"] == '2'){
 	echo"<div>
 	        <span>数据查询</span>
 			<a href='sjcx/localtable.php' target='mainFrame' onFocus='this.blur()'>常住人员信息表</a>
-			<a href='main_list.php' target='mainFrame' onFocus='this.blur()'>临时访客信息表</a>
+			<a href='sjcx/visitortable.php' target='mainFrame' onFocus='this.blur()'>临时访客信息表</a>
 			<a href='main_info.html' target='mainFrame' onFocus='this.blur()'>人员进出记录</a>
 	      </div>";
 	}
