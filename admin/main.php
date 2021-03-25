@@ -104,7 +104,7 @@ MYSQL版本：mysql  Ver 8.0.20 for Linux on x86_64<br/>
     <td colspan="2" align="left" valign="top">
     <div class="main-corpy">系统提示</div>
     <div class="main-order">1=>如您在使用过程有发现出错请及时与我们取得联系；为保证您得到我们的后续服务，强烈建议您购买我们的正版系统或向我们定制系统！<br/>
-2=>强烈建议您将IE7以上版本或其他的浏览器</div>
+2=>强烈建议您使用IE7以上版本或其他的浏览器</div>
     </td>
   </tr>
 </table>

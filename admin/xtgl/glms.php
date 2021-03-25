@@ -7,7 +7,7 @@ session_start();
 if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	$adminid = $_SESSION["adminid"];
 	$mode = $_SESSION["mode"];
-	if($mode < '7'){
+	if($mode < '4'){
 		die("您没有权限访问！");
 	}
 } else {
@@ -15,10 +15,10 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
     $_SESSION["admin"] = false;
 	  echo "<script type=\"text/javascript\">
 	   confirm('您还未登录！');
-	   window.location.href = 'login.html';
+	   window.location.href = '../login.html';
 	   </script>";
 }
-$ini = parse_ini_file(".dbuser.ini");//读取配置文件
+$ini = parse_ini_file("../.dbuser.ini");//读取配置文件
 		// 创建连接
 		$conn = new mysqli($ini["dbservername"], $ini["dbusername"], $ini["dbpassword"], $ini["dbname"]);
 		// Check connection
@@ -40,7 +40,7 @@ $ini = parse_ini_file(".dbuser.ini");//读取配置文件
 		} else {
 		       echo "<script type=\"text/javascript\">
 		        confirm('查询数据失败，请重试！');
-		        window.location.href = 'login.html';
+		        window.location.href = '../main.php';
 		        </script>";
 		}
 		$conn->close();
@@ -50,14 +50,14 @@ $ini = parse_ini_file(".dbuser.ini");//读取配置文件
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>主要内容区main</title>
-<link href="css/css.css" type="text/css" rel="stylesheet" />
-<link href="css/main.css" type="text/css" rel="stylesheet" />
-<link rel="shortcut icon" href="images/main/favicon.ico" />
+<link href="../css/css.css" type="text/css" rel="stylesheet" />
+<link href="../css/main.css" type="text/css" rel="stylesheet" />
+<link rel="shortcut icon" href="../images/main/favicon.ico" />
 
 <!-- Bootstrap -->
-<link rel="stylesheet" href="bootstrap/bootstrap.min.css">  
-<script src="bootstrap/jquery.min.js"></script>
-<script src="bootstrap/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../bootstrap/bootstrap.min.css">  
+<script src="../bootstrap/jquery.min.js"></script>
+<script src="../bootstrap/bootstrap.min.js"></script>
 
 <style>
 body{overflow-x:hidden; background:#f2f0f5; padding:15px 0px 10px 5px;}

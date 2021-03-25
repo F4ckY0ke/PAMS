@@ -7,7 +7,7 @@ session_start();
 if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	$adminid = $_SESSION["adminid"];
 	$mode = $_SESSION["mode"];
-	if($mode < '7'){
+	if($mode < '4'){
 		die("您没有权限访问！");
 	}
 } else {
@@ -15,10 +15,10 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
     $_SESSION["admin"] = false;
 	  echo "<script type=\"text/javascript\">
 	   confirm('您还未登录！');
-	   window.location.href = 'login.html';
+	   window.location.href = '../login.html';
 	   </script>";
 }
-$ini = parse_ini_file(".dbuser.ini");//读取配置文件
+$ini = parse_ini_file("../.dbuser.ini");//读取配置文件
 		// 创建连接
 		$conn = new mysqli($ini["dbservername"], $ini["dbusername"], $ini["dbpassword"], $ini["dbname"]);
 		// Check connection
@@ -47,7 +47,7 @@ $ini = parse_ini_file(".dbuser.ini");//读取配置文件
 		} else {
 		       echo "<script type=\"text/javascript\">
 		        confirm('查询数据失败，请重试！');
-		        window.location.href = 'login.html';
+		        window.location.href = '../main.php';
 		        </script>";
 		}
 		$conn->close();
@@ -57,14 +57,14 @@ $ini = parse_ini_file(".dbuser.ini");//读取配置文件
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>主要内容区main</title>
-<link href="css/css.css" type="text/css" rel="stylesheet" />
-<link href="css/main.css" type="text/css" rel="stylesheet" />
-<link rel="shortcut icon" href="images/main/favicon.ico" />
+<link href="../css/css.css" type="text/css" rel="stylesheet" />
+<link href="../css/main.css" type="text/css" rel="stylesheet" />
+<link rel="../shortcut icon" href="images/main/favicon.ico" />
 
 <!-- Bootstrap -->
-<link rel="stylesheet" href="bootstrap/bootstrap.min.css">  
-<script src="bootstrap/jquery.min.js"></script>
-<script src="bootstrap/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../bootstrap/bootstrap.min.css">  
+<script src="../bootstrap/jquery.min.js"></script>
+<script src="../bootstrap/bootstrap.min.js"></script>
 
 <style>
 body{overflow-x:hidden; background:#f2f0f5; padding:15px 0px 10px 5px;}
@@ -114,38 +114,38 @@ table tr{
   <tr>
     <td  colspan="4" align="left" style="font-size:12px; line-height:20px;" >您的位置：系统管理&nbsp;&nbsp;>&nbsp;&nbsp;系统参数设置</td>
   </tr>
-
+<form method="post" action="pushcssz.php">
 <tr>
 
 		<td class="text1">人脸识别APP_ID：</td>
-		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[0];?>"></td>
+		<td><input type="text" name="APP_ID" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[0];?>"></td>
 		<td class="text1">人脸识别API_KEY：</td>
-		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[1];?>"></td>
+		<td><input type="text" name="API_KEY" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[1];?>"></td>
 </tr>
 <tr>
 
 		<td class="text1">人脸识别SECRET_KEY：</td>
-		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[2];?>"></td>
+		<td><input type="text" name="SECRET_KEY" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[2];?>"></td>
 		<td class="text1">二维码识别API_KEY：</td>
-		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[3];?>"></td>
+		<td><input type="text" name="QRAPI_KEY" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[3];?>"></td>
 </tr>
 <tr>
 		<td class="text1">二维码识别SECRET_KEY：</td>
-		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[4];?>"></td>
+		<td><input type="text" name="QRSECRET_KEY" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[4];?>"></td>
 		<td class="text1">二维码识别ACCESS_TOKEN：</td>
-		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[5];?>"></td>
+		<td><input type="text" name="ACCESS_TOKEN" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[5];?>"></td>
 </tr>
 <tr>
 		<td class="text1">人脸识别等待时间：</td>
-		<td style="text-align:left"><input type="text" class="form-control1 mb-2" style="width: 200px" id="inlineFormInput" value="<?php echo $jieguo[6];?>">&emsp;秒
+		<td style="text-align:left"><input type="text" name="TIME_OUT" class="form-control1 mb-2" style="width: 200px" id="inlineFormInput" value="<?php echo $jieguo[6];?>">&emsp;秒
 		</td>
 		<td class="text1">人脸识别分数阈值：</td>
-		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[7];?>"></td>
+		<td><input type="text" name="FACE_SCORE" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[7];?>"></td>
 </tr>
 <tr>
 	<td style="text-align:center" colspan="4"><input type="submit" value="保存" style="width:100px" class="btn btn-primary"></td>
 </tr>
-
+</form>
 </table>
 
 </body>

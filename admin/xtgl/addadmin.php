@@ -1,4 +1,5 @@
 <?php
+//添加管理员页面
 //  防止全局变量造成安全隐患
 $admin = false;
 //  启动会话，这步必不可少
@@ -7,7 +8,7 @@ session_start();
 if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	$adminid = $_SESSION["adminid"];
 	$mode = $_SESSION["mode"];
-	if($mode < '7'){
+	if($mode < '4'){
 		die("您没有权限访问！");
 	}
 } else {
@@ -15,7 +16,7 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
     $_SESSION["admin"] = false;
 	  echo "<script type=\"text/javascript\">
 	   confirm('您还未登录！');
-	   window.location.href = 'login.html';
+	   window.location.href = '../login.html';
 	   </script>";
 }
 ?>
@@ -23,9 +24,9 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>主要内容区main</title>
-<link href="css/css.css" type="text/css" rel="stylesheet" />
-<link href="css/main.css" type="text/css" rel="stylesheet" />
-<link rel="shortcut icon" href="images/main/favicon.ico" />
+<link href="../css/css.css" type="text/css" rel="stylesheet" />
+<link href="../css/main.css" type="text/css" rel="stylesheet" />
+<link rel="shortcut icon" href="../images/main/favicon.ico" />
 <style>
 body{overflow-x:hidden; background:#f2f0f5; padding:15px 0px 10px 5px;}
 #searchmain{ font-size:12px;}
@@ -63,7 +64,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
   </tr>
   <tr>
     <td align="left" valign="top" id="addinfo">
-    <a href="add.html" target="mainFrame" onFocus="this.blur()" class="add">新增管理员</a>
+    <a href="addadmin.php" target="mainFrame" onFocus="this.blur()" class="add">新增管理员</a>
     </td>
   </tr>
   <tr>

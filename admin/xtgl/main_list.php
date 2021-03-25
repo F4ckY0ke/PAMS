@@ -7,7 +7,7 @@ session_start();
 if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	$adminid = $_SESSION["adminid"];
 	$mode = $_SESSION["mode"];
-	if($mode < '7'){
+	if($mode < '4'){
 		die("您没有权限访问！");
 	}
 } else {
@@ -15,7 +15,7 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
     $_SESSION["admin"] = false;
 	  echo "<script type=\"text/javascript\">
 	   confirm('您还未登录！');
-	   window.location.href = 'login.html';
+	   window.location.href = '../login.html';
 	   </script>";
 }
 ?>
@@ -23,23 +23,23 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>主要内容区main</title>
-<link href="css/css.css" type="text/css" rel="stylesheet" />
-<link href="css/main.css" type="text/css" rel="stylesheet" />
-<link rel="shortcut icon" href="images/main/favicon.ico" />
+<link href="../css/css.css" type="text/css" rel="stylesheet" />
+<link href="../css/main.css" type="text/css" rel="stylesheet" />
+<link rel="shortcut icon" href="../images/main/favicon.ico" />
 
 <!-- Bootstrap -->
-<link rel="stylesheet" href="bootstrap/bootstrap.min.css">  
-<script src="bootstrap/jquery.min.js"></script>
-<script src="bootstrap/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../bootstrap/bootstrap.min.css">  
+<script src="../bootstrap/jquery.min.js"></script>
+<script src="../bootstrap/bootstrap.min.js"></script>
 
 <!-- DataTables -->
-<link rel="stylesheet" type="text/css" href="DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="../DataTables/css/jquery.dataTables.css">
  
 <!-- jQuery -->
-<script type="text/javascript" charset="utf8" src="DataTables/js/jquery.js"></script>
+<script type="text/javascript" charset="utf8" src="../DataTables/js/jquery.js"></script>
  
 <!-- DataTables -->
-<script type="text/javascript" charset="utf8" src="DataTables/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="../DataTables/js/jquery.dataTables.js"></script>
 
 
 <style>

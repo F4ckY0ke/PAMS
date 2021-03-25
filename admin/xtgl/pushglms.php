@@ -7,7 +7,7 @@ session_start();
 if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	$adminid = $_SESSION["adminid"];
 	$mode = $_SESSION["mode"];
-	if($mode < '7'){
+	if($mode < '4'){
 		die("您没有权限访问！");
 	}
 } else {
@@ -15,11 +15,11 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
     $_SESSION["admin"] = false;
 	  echo "<script type=\"text/javascript\">
 	   confirm('您还未登录！');
-	   window.location.href = 'login.html';
+	   window.location.href = '../login.html';
 	   </script>";
 }
 
-$ini = parse_ini_file(".dbuser.ini");//读取配置文件
+$ini = parse_ini_file("../.dbuser.ini");//读取配置文件
 // 创建连接
 $con = mysqli_connect($ini["dbservername"], $ini["dbusername"], $ini["dbpassword"], $ini["dbname"]);
 // Check connection

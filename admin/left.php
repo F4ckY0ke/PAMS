@@ -48,15 +48,15 @@ if ($_GET["id"] == '1' || $_GET["id"] == ''){
 	echo"<div>
 			<span>系统管理</span>
 			<a href='main.php' target='mainFrame' onFocus='this.blur()'>系统状态</a>
-			<a href='glms.php' target='mainFrame' onFocus='this.blur()'>管理模式</a>
-			<a href='cssz.php' target='mainFrame' onFocus='this.blur()'>系统参数设置</a>
-			<a href='main_list.php' target='mainFrame' onFocus='this.blur()'>管理员账号</a>
+			<a href='xtgl/glms.php' target='mainFrame' onFocus='this.blur()'>管理模式</a>
+			<a href='xtgl/cssz.php' target='mainFrame' onFocus='this.blur()'>系统参数设置</a>
+			<a href='xtgl/main_list.php' target='mainFrame' onFocus='this.blur()'>管理员账号</a>
 	      </div>";
 	}
 if ($_GET["id"] == '2'){
 	echo"<div>
 	        <span>数据查询</span>
-			<a href='main_list.php' target='mainFrame' onFocus='this.blur()'>常住人员信息表</a>
+			<a href='sjcx/localtable.php' target='mainFrame' onFocus='this.blur()'>常住人员信息表</a>
 			<a href='main_list.php' target='mainFrame' onFocus='this.blur()'>临时访客信息表</a>
 			<a href='main_info.html' target='mainFrame' onFocus='this.blur()'>人员进出记录</a>
 	      </div>";
