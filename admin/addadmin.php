@@ -1,3 +1,24 @@
+<?php
+//  防止全局变量造成安全隐患
+$admin = false;
+//  启动会话，这步必不可少
+session_start();
+//  判断是否登陆
+if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
+	$adminid = $_SESSION["adminid"];
+	$mode = $_SESSION["mode"];
+	if($mode < '7'){
+		die("您没有权限访问！");
+	}
+} else {
+    //  验证失败，将 $_SESSION["admin"] 置为 false
+    $_SESSION["admin"] = false;
+	  echo "<script type=\"text/javascript\">
+	   confirm('您还未登录！');
+	   window.location.href = 'login.html';
+	   </script>";
+}
+?>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -38,7 +59,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 <!--main_top-->
 <table width="99%" border="0" cellspacing="0" cellpadding="0" id="searchmain">
   <tr>
-    <td width="99%" align="left" valign="top">您的位置：用户管理&nbsp;&nbsp;>&nbsp;&nbsp;添加用户</td>
+    <td width="99%" align="left" valign="top">您的位置：管理员账号&nbsp;&nbsp;>&nbsp;&nbsp;新增管理员</td>
   </tr>
   <tr>
     <td align="left" valign="top" id="addinfo">
@@ -47,36 +68,60 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
   </tr>
   <tr>
     <td align="left" valign="top">
-    <form method="post" action="">
+    <form method="post" action="pushaddadmin.php">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="right" valign="middle" class="borderright borderbottom bggray">用户名：</td>
         <td align="left" valign="middle" class="borderright borderbottom main-for">
-        <input type="text" name="" value="" class="text-word">
+        <input type="text" name="USER" value="" class="text-word">*
         </td>
         </tr>
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="right" valign="middle" class="borderright borderbottom bggray">用户密码：</td>
         <td align="left" valign="middle" class="borderright borderbottom main-for">
-        <input type="text" name="" value="" class="text-word">
+        <input type="password" name="PASSWORD" value="" class="text-word">*
         </td>
         </tr>
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="right" valign="middle" class="borderright borderbottom bggray">确认密码：</td>
         <td align="left" valign="middle" class="borderright borderbottom main-for">
-        <input type="text" name="" value="" class="text-word">
+        <input type="password" name="SPASSWORD" value="" class="text-word">*
         </td>
       </tr>
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="right" valign="middle" class="borderright borderbottom bggray">用户权限：</td>
         <td align="left" valign="middle" class="borderright borderbottom main-for">
-        <select name="level" id="level">
-	    <option value="1" >&nbsp;&nbsp;信息录入员</option>
-	    <option value="2" >&nbsp;&nbsp;一般管理员</option>
-	    <option value="3" >&nbsp;&nbsp;超级管理员</option>
-        </select>
+        <select name="MODE" id="level">
+	    <option value="1" >&nbsp;&nbsp;1.人脸管理员</option>
+	    <option value="2" >&nbsp;&nbsp;2.数据管理员</option>
+	    <option value="3" >&nbsp;&nbsp;3.人脸+数据管理员</option>
+	    <option value="4" >&nbsp;&nbsp;4.系统管理员</option>
+	    <option value="5" >&nbsp;&nbsp;5.系统+人脸管理员</option>
+	    <option value="6" >&nbsp;&nbsp;6.系统+数据管理员</option>
+	    <option value="6" >&nbsp;&nbsp;7.超级管理员</option>
+        </select>*
         </td>
       </tr>
+            <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+        <td align="right" valign="middle" class="borderright borderbottom bggray">联系方式：</td>
+        <td align="left" valign="middle" class="borderright borderbottom main-for">
+        <input type="text" name="TEL" value="" class="text-word">
+        </td>
+      </tr>
+
+      <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+        <td align="right" valign="middle" class="borderright borderbottom bggray">姓名：</td>
+        <td align="left" valign="middle" class="borderright borderbottom main-for">
+        <input type="text" name="NAME" value="" class="text-word">
+        </td>
+      </tr>
+      <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+        <td align="right" valign="middle" class="borderright borderbottom bggray">身份证号：</td>
+        <td align="left" valign="middle" class="borderright borderbottom main-for">
+        <input type="text" name="IDCARD" value="" class="text-word">
+        </td>
+      </tr>
+
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="right" valign="middle" class="borderright borderbottom bggray">&nbsp;</td>
         <td align="left" valign="middle" class="borderright borderbottom main-for">

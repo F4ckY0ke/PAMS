@@ -111,6 +111,10 @@ table tr{
 <body>
 <!--main_top-->
 <table>
+  <tr>
+    <td  colspan="4" align="left" style="font-size:12px; line-height:20px;" >您的位置：系统管理&nbsp;&nbsp;>&nbsp;&nbsp;系统参数设置</td>
+  </tr>
+
 <tr>
 
 		<td class="text1">人脸识别APP_ID：</td>
@@ -133,7 +137,7 @@ table tr{
 </tr>
 <tr>
 		<td class="text1">人脸识别等待时间：</td>
-		<td style="text-align:left"><input type="text" class="form-control1 mb-2" style="width: 200px" id="inlineFormInput" value="<?php echo $jieguo[6];?>">秒
+		<td style="text-align:left"><input type="text" class="form-control1 mb-2" style="width: 200px" id="inlineFormInput" value="<?php echo $jieguo[6];?>">&emsp;秒
 		</td>
 		<td class="text1">人脸识别分数阈值：</td>
 		<td><input type="text" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[7];?>"></td>

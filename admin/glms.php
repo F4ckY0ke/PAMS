@@ -89,11 +89,11 @@ div.main-order{ line-height:30px; padding:10px 0 0 0;}
     <div class="main-tit">管理模式设置</div>
     <div class="main-con">
 		<form name="glms" action="pushglms.php" method="get">
-		<input type="radio" name="sex" value="1">1.常住人员 + 外来访客</br>
-		<input type="radio" name="sex" value="2">2.仅常住人员</br>
-		<input type="radio" name="sex" value="3">3.仅外来访客</br>
-		<input type="radio" name="sex" value="4">4.任何人员</br>
-		<input type="radio" name="sex" value="5">5.小区封闭</br>
+		<input type="radio" name="sex" value="1" <?php if ($jieguo[0] == 1){echo "checked='checked'";};?>>1.常住人员 + 外来访客</br>
+		<input type="radio" name="sex" value="2" <?php if ($jieguo[0] == 2){echo "checked='checked'";};?>>2.仅常住人员</br>
+		<input type="radio" name="sex" value="3" <?php if ($jieguo[0] == 3){echo "checked='checked'";};?>>3.仅外来访客</br>
+		<input type="radio" name="sex" value="4" <?php if ($jieguo[0] == 4){echo "checked='checked'";};?>>4.任何人员</br>
+		<input type="radio" name="sex" value="5" <?php if ($jieguo[0] == 5){echo "checked='checked'";};?>>5.小区封闭</br>
 		</br>
 		<input type="submit" class="btn btn-primary" value="提交">
 		</form>
