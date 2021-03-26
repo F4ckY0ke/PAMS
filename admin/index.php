@@ -87,7 +87,7 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 		<frame scrolling="auto" noresize="" border="0" name="mainFrame" src="<?php 
 if ($_GET["id"] == '1' || $_GET["id"] == ''){echo "main.php";}
 if ($_GET["id"] == '2'){	echo "sjcx/localtable.php";}
-if ($_GET["id"] == '3'){	echo "main_message.html";}
+if ($_GET["id"] == '3'){	echo "faceapi/facetable.php";}
 if ($_GET["id"] == '4'){	echo "message.html";}
 		?>"></frame>
 	</frameset>

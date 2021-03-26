@@ -64,9 +64,8 @@ if ($_GET["id"] == '2'){
 if ($_GET["id"] == '3'){
 	echo"<div>
 	        <span>人脸管理</span>
-	        <a href='main_info.html' target='mainFrame' onFocus='this.blur()'>人脸库</a>
-	        <a href='main_list.php' target='mainFrame' onFocus='this.blur()'>人脸注册</a>
-	        <a href='main_info.html' target='mainFrame' onFocus='this.blur()'>人脸操作</a>
+	        <a href='faceapi/facetable.php' target='mainFrame' onFocus='this.blur()'>人脸库</a>
+	        <a href='faceapi/addface.php' target='mainFrame' onFocus='this.blur()'>人脸注册</a>
 	      </div>";
 	}
 if ($_GET["id"] == '4'){

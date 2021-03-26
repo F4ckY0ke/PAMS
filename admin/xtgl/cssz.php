@@ -34,7 +34,8 @@ $ini = parse_ini_file("../.dbuser.ini");//读取配置文件
 				SELECT CANSHUVALUE FROM A_CANSHU WHERE CANSHUNAME = 'QRSECRET_KEY' UNION ALL
 				SELECT CANSHUVALUE FROM A_CANSHU WHERE CANSHUNAME = 'ACCESS_TOKEN' UNION ALL
 				SELECT CANSHUVALUE FROM A_CANSHU WHERE CANSHUNAME = 'TIME_OUT' UNION ALL
-				SELECT CANSHUVALUE FROM A_CANSHU WHERE CANSHUNAME = 'FACE_SCORE';";
+				SELECT CANSHUVALUE FROM A_CANSHU WHERE CANSHUNAME = 'FACE_SCORE' UNION ALL
+				SELECT CANSHUVALUE FROM A_CANSHU WHERE CANSHUNAME = 'GROUPID'";
 		$result = $conn->query($sql);
 		 
 		if ($result->num_rows > 0) {
@@ -141,6 +142,11 @@ table tr{
 		</td>
 		<td class="text1">人脸识别分数阈值：</td>
 		<td><input type="text" name="FACE_SCORE" class="form-control mb-2" style="width: 300px" id="inlineFormInput" value="<?php echo $jieguo[7];?>"></td>
+</tr>
+<tr>
+		<td class="text1">人脸库用户组名：</td>
+		<td style="text-align:left"><input type="text" name="GROUPID" class="form-control1 mb-2" style="width: 200px" id="inlineFormInput" value="<?php echo $jieguo[8];?>">&emsp;
+		</td>
 </tr>
 <tr>
 	<td style="text-align:center" colspan="4"><input type="submit" value="保存" style="width:100px" class="btn btn-primary"></td>
