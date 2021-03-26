@@ -7,9 +7,12 @@ session_start();
 if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	$adminid = $_SESSION["adminid"];
 	$mode = $_SESSION["mode"];
-	if($mode < '4'){
-		die("您没有权限访问！");
+	if($mode < '7'){
+		echo "<script type=\"text/javascript\">
+		   window.location.href = 'updatepwd.php';
+		   </script>";
 	}
+
 } else {
     //  验证失败，将 $_SESSION["admin"] 置为 false
     $_SESSION["admin"] = false;

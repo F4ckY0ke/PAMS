@@ -88,7 +88,7 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 if ($_GET["id"] == '1' || $_GET["id"] == ''){echo "main.php";}
 if ($_GET["id"] == '2'){	echo "sjcx/localtable.php";}
 if ($_GET["id"] == '3'){	echo "main_message.html";}
-if ($_GET["id"] == '4'){	echo "main_info.html";}
+if ($_GET["id"] == '4'){	echo "message.html";}
 		?>"></frame>
 	</frameset>
 <!--bottom样式-->

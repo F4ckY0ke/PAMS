@@ -72,8 +72,8 @@ if ($_GET["id"] == '3'){
 if ($_GET["id"] == '4'){
 	echo"<div>
 	        <span>联系我们</span>
-	        <a href='main_list.php' target='mainFrame' onFocus='this.blur()'>关于我们</a>
-	        <a href='main_list.php' target='mainFrame' onFocus='this.blur()'>公司主页</a>
+	        <a href='message.html' target='mainFrame' onFocus='this.blur()'>关于我们</a>
+	        <a href='http://yoooke.top' target='_top' onFocus='this.blur()'>公司主页</a>
 	      </div>";
 	}
 

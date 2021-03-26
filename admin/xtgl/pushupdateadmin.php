@@ -7,7 +7,7 @@ session_start();
 if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	$adminid = $_SESSION["adminid"];
 	$mode = $_SESSION["mode"];
-	if($mode < '4'){
+	if($mode <= '0'){
 		die("您没有权限访问！");
 	}
 } else {
@@ -33,7 +33,7 @@ if ($_POST["SPASSWORD"] == $_POST["PASSWORD"] && !empty($user) && !empty($pwd)){
     'cost' => 10,
 	];
 	$hashpassword = password_hash($_POST["PASSWORD"], PASSWORD_BCRYPT, $options);
-	$sql = "UPDATE U_ADMIN SET PASSWORD='{$hashpassword}',MODE={$_POST["MODE"]},TEL='{$_POST["TEL"]}',NAME='{$_POST["NAME"]}',IDCARD='{$_POST["IDCARD"]}',USER='{$_POST["USER"]}' WHERE USER='{$_GET["id"]}';";
+	$sql = "UPDATE U_ADMIN SET PASSWORD='{$hashpassword}',TEL='{$_POST["TEL"]}',NAME='{$_POST["NAME"]}',IDCARD='{$_POST["IDCARD"]}',USER='{$_POST["USER"]}' WHERE USER='{$adminid}';";
 	// 执行查询并输出受影响的行数
 	mysqli_query($con,$sql);
 	if (mysqli_affected_rows($con)==1){

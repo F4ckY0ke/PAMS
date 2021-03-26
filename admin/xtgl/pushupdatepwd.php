@@ -7,7 +7,7 @@ session_start();
 if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	$adminid = $_SESSION["adminid"];
 	$mode = $_SESSION["mode"];
-	if($mode == '0' || $mode == '1' || $mode == '4' || $mode == '5'){
+	if($mode < '4'){
 		die("您没有权限访问！");
 	}
 } else {
@@ -18,8 +18,9 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	   window.location.href = '../login.html';
 	   </script>";
 }
-$facename = $_POST["FACENAME"];
-if (!empty($facename)){
+$user = $_POST["USER"];
+$pwd = $_POST["PASSWORD"];
+if ($_POST["SPASSWORD"] == $_POST["PASSWORD"] && !empty($user) && !empty($pwd)){
 	$ini = parse_ini_file("../.dbuser.ini");//读取配置文件
 	// 创建连接
 	$con = mysqli_connect($ini["dbservername"], $ini["dbusername"], $ini["dbpassword"], $ini["dbname"]);
@@ -27,23 +28,26 @@ if (!empty($facename)){
 	if (mysqli_connect_errno($con))
 	{
 	    echo "连接 MySQL 失败: " . mysqli_connect_error();
-	};
-
-	$sql = "INSERT INTO U_LOCAL (USERFLAG,FACENAME,NAME,IDCARD,TEL,ADDRESS,REGTIME) VALUES({$_POST["USERFLAG"]},'{$_POST["FACENAME"]}','{$_POST["NAME"]}','{$_POST["IDCARD"]}','{$_POST["TEL"]}','{$_POST["ADDRESS"]}',NOW());";
+	}
+	$options = [
+    'cost' => 10,
+	];
+	$hashpassword = password_hash($_POST["PASSWORD"], PASSWORD_BCRYPT, $options);
+	$sql = "UPDATE U_ADMIN SET PASSWORD='{$hashpassword}',MODE={$_POST["MODE"]},TEL='{$_POST["TEL"]}',NAME='{$_POST["NAME"]}',IDCARD='{$_POST["IDCARD"]}',USER='{$_POST["USER"]}' WHERE USER='{$_GET["id"]}';";
 	// 执行查询并输出受影响的行数
 	mysqli_query($con,$sql);
 	if (mysqli_affected_rows($con)==1){
 		mysqli_close($con);
 	echo "<script type=\"text/javascript\">
-			alert('添加成功');
-			window.location.href = 'localtable.php';
+			alert('修改成功');
+			window.location.href = 'main_list.php';
 		   </script>";
-	};
+	}
 }
 else{
 	echo "<script type=\"text/javascript\">
-	   confirm('失败！人脸名称必须输入。');
-	   window.location.href = 'addlocal.php';
+	   confirm('失败！用户名密码为空或两次输入密码不一致。');
+	   window.location.href = 'updateadmin.php?id={$_POST["USER"]}';
 	   </script>";
 }
 
