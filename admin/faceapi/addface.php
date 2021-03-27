@@ -2,84 +2,71 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
+<title>上传人脸</title>
 
-<link href="bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<script src="bootstrap-3.3.7-dist/js/jquery-1.11.2.min.js"></script>
-<script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+ 
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8" src="../DataTables/js/jquery.js"></script>
 
-<style type="text/css">
-#yl{ width:200px; height:200px; background-image:url(img/avatar.png); background-size:200px 200px;}
-#file{ width:200px; height:200px; float:left; opacity:0;}
-.modal-content{ width:500px;}
-.kk{ margin-left:130px;}
-</style>
+<style>
+    #box{
+      width: 454px;
+      height: 340px;
+      border: 2px solid #858585;
+    }
+    #imgshow{
+      width: 100%;
+      height: 100%;
+    }
+    #pox{
+      width: 70px;
+      height: 24px;
+      overflow: hidden;
+    }
+  </style>
 
 </head>
 
 <body>
-
-
-
-<!-- 按钮触发模态框 -->
-<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-    上传头像
-</button>
-<!-- 模态框（Modal） -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    ×
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    上传头像
-                </h4>
-            </div>
-            <div class="modal-body">
-                <form id="sc" action="uploads.php" method="post" enctype="multipart/form-data" target="shangchuan">
-    
-    <input type="hidden" name="tp" value="" id="tp" />
-    
-    <div id="yl" class="kk">
-        <input type="file" name="file" id="file" onchange="document.getElementById('sc').submit()" />
-    </div>
-    
-    
-    
+<body>
+<form action="pushaddface.php" method="post">
+	<input type="hidden"  id="facebase" name="facebase">
+	<div id="box">
+		<img id="imgshow" src="page.png" alt=""/>
+	</div>
+	<div id="pox">
+		<input id="filed" type="file" accept="image/*"/>
+	</div>
+	<div>
+		人脸名称：<input type="text" name="facename" />
+	</div>
+	<input type="submit" value="提交"/>
 </form>
-
-<iframe style="display:none" name="shangchuan" id="shangchuan">
-</iframe>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                </button>
-                <!--<button type="button" class="btn btn-primary">
-                    提交更改
-                </button>-->
-                
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-
+</body>
 
 </body>
 
-<script type="text/javascript">
-
-//回调函数,调用该方法传一个文件路径，该变背景图
-function showimg(url)
-{
-    var div = document.getElementById("yl");
-    div.style.backgroundImage = "url("+url+")";
-    
-    document.getElementById("tp").value = url;
-}
-
+<script>
+    //在input file内容改变的时候触发事件
+    $('#filed').change(function(){
+    //获取input file的files文件数组;
+    //$('#filed')获取的是jQuery对象，.get(0)转为原生对象;
+    //这边默认只能选一个，但是存放形式仍然是数组，所以取第一个元素使用[0];
+      var file = $('#filed').get(0).files[0];
+    //创建用来读取此文件的对象
+      var reader = new FileReader();
+    //使用该对象读取file文件
+      reader.readAsDataURL(file);
+    //读取文件成功后执行的方法函数
+      reader.onload=function(e){
+    //读取成功后返回的一个参数e，整个的一个进度事件
+        console.log(e);
+    //选择所要显示图片的img，要赋值给img的src就是e中target下result里面
+    //的base64编码格式的地址
+    document.getElementById("facebase").value = e.target.result;
+        $('#imgshow').get(0).src = e.target.result;
+      }
+    })
 </script>
 
 </html>
