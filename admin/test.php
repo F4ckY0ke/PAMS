@@ -1,154 +1,326 @@
-<?php
-//  防止全局变量造成安全隐患
-$admin = false;
-//  启动会话，这步必不可少
-session_start();
-//  判断是否登陆
-if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
-	$adminid = $_SESSION["adminid"];
-	$mode = $_SESSION["mode"];
-	if($mode == '0' || $mode == '1' || $mode == '4' || $mode == '5'){
-		die("您没有权限访问！");
-	}
-} else {
-    //  验证失败，将 $_SESSION["admin"] 置为 false
-    $_SESSION["admin"] = false;
-	  echo "<script type=\"text/javascript\">
-	   confirm('您还未登录！');
-	   window.location.href = 'login.html';
-	   </script>";
-}
-?>
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>主要内容区main</title>
-<link href="css/css.css" type="text/css" rel="stylesheet" />
-<link href="css/main.css" type="text/css" rel="stylesheet" />
-<link rel="shortcut icon" href="images/main/favicon.ico" />
-
-<!-- Bootstrap -->
-<link rel="stylesheet" href="bootstrap/bootstrap.min.css">  
-<script src="bootstrap/jquery.min.js"></script>
-<script src="bootstrap/bootstrap.min.js"></script>
-
-<!-- DataTables -->
-<link rel="stylesheet" type="text/css" href="DataTables/css/jquery.dataTables.css">
- 
-<!-- jQuery -->
-<script type="text/javascript" charset="utf8" src="DataTables/js/jquery.js"></script>
- 
-<!-- DataTables -->
-<script type="text/javascript" charset="utf8" src="DataTables/js/jquery.dataTables.js"></script>
-
-
-<style>
-body{overflow-x:hidden; background:#f2f0f5; padding:15px 0px 10px 5px;}
-#searchmain{ font-size:12px;}
-#search{ font-size:12px; background:#548fc9; margin:10px 10px 0 0; display:inline; width:100%; color:#FFF; float:left}
-#search form span{height:40px; line-height:40px; padding:0 0px 0 10px; float:left;}
-#search form input.text-word{height:24px; line-height:24px; width:180px; margin:8px 0 6px 0; padding:0 0px 0 10px; float:left; border:1px solid #FFF;}
-#search form input.text-but{height:24px; line-height:24px; width:55px; background:url(images/main/list_input.jpg) no-repeat left top; border:none; cursor:pointer; font-family:"Microsoft YaHei","Tahoma","Arial",'宋体'; color:#666; float:left; margin:8px 0 0 6px; display:inline;}
-#search a.add{ background:url(images/main/add.jpg) no-repeat -3px 7px #548fc9; padding:0 10px 0 26px; height:40px; line-height:40px; font-size:14px; font-weight:bold; color:#FFF; float:right}
-#search a:hover.add{ text-decoration:underline; color:#d2e9ff;}
-#main-tab{ border:1px solid #eaeaea; background:#FFF; font-size:12px;}
-#main-tab th{ font-size:12px; background:url(images/main/list_bg.jpg) repeat-x; height:32px; line-height:32px;}
-#main-tab td{ font-size:12px; line-height:40px;}
-#main-tab td a{ font-size:12px; color:#548fc9;}
-#main-tab td a:hover{color:#565656; text-decoration:underline;}
-.bordertop{ border-top:1px solid #ebebeb}
-.borderright{ border-right:1px solid #ebebeb}
-.borderbottom{ border-bottom:1px solid #ebebeb}
-.borderleft{ border-left:1px solid #ebebeb}
-.gray{ color:#dbdbdb;}
-td.fenye{ padding:10px 0 0 0; text-align:right;}
-.bggray{ background:#f9f9f9}
-</style>
-
+  <meta charset="utf-8">
+  <title>Layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
-<script>
-$(document).ready(function() {//加载页面处理
-	$('#babyTable').DataTable( {//发送请求把返回的json数据输出到表格babyTable
-		"ajax": {
-			url: "sjcx/getlocal.php",
-			dataSrc: 'Data'//指明数据来源
-		},
-		
-		"columns": [//指定列数据
-			{ "data": "ID" },
-			{ "data": "USERFLAG" },
-			{ "data": "FACENAME" },
-			{ "data": "NAME" },
-			{ "data": "IDCARD" },
-			{ "data": "TEL" },
-			{ "data": "ADDRESS" },
-			{ "data": "REGTIME" },
-			{//新建一列存放操作按钮
-				className : "td-operation text-center",
-				data: null,
-				defaultContent:"",
-				orderable : false,
-				width : "100px"
-			}
-		],
-		  "createdRow": function ( row, data, index) {
-			//行渲染回调,在这里可以对该行dom元素进行任何操作
-			var $btn = $('<div class="btn-group text-cen">'+
-			    '<input type="button" class="btn btn-success" onclick="sendUpdate(\''+row.cells[0].innerHTML+'\')" value="修改">'+//获取当前行第3列内数据做拼接后生成按钮
-			    '<input type="button" class="btn btn-danger" onclick="sendDel(\''+row.cells[0].innerHTML+'\')" value="删除">'+
-			    '</div>'+
-			    '</div>');
-			$('td', row).eq(-1).append($btn);//在最后一列插入按钮数据
-		}
-	} );
-});
-
-</script>
-<!--main_top-->
-
-
-
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <div class="panel-title">
-            基本的datatables
-        </div>
-    </div>
-    <div class="panel-body">
-        <table id="babyTable" class="table table-bordered table-striped table-hover">
-            <thead>
-      <tr>
-        <th align="center" valign="middle" class="borderright">编号</th>
-        <th align="center" valign="middle" class="borderright">启用标识</th>
-        <th align="center" valign="middle" class="borderright">人脸名称</th>
-        <th align="center" valign="middle" class="borderright">姓名</th>
-        <th align="center" valign="middle" class="borderright">身份证号</th>
-        <th align="center" valign="middle" class="borderright">联系方式</th>
-        <th align="center" valign="middle" class="borderright">常住地址</th>
-        <th align="center" valign="middle" class="borderright">注册时间</th>
-        <th align="center" valign="middle">操作</th>
-      </tr>
-        </thead>
-        </table>
-    </div>
+          
+<blockquote class="layui-elem-quote">为节省服务器开销，以下示例均未配置真实上传接口，所以每次上传都会报提示：请求上传接口出现异常，这属于正常现象。</blockquote>   
+          
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>常规使用：普通图片上传</legend>
+</fieldset>
+ 
+<div class="layui-upload">
+  <button type="button" class="layui-btn" id="test1">上传图片</button>
+  <div class="layui-upload-list">
+    <img class="layui-upload-img" id="demo1">
+    <p id="demoText"></p>
+  </div>
+</div>   
+ 
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>上传多张图片</legend>
+</fieldset>
+ 
+<div class="layui-upload">
+  <button type="button" class="layui-btn" id="test2">多图片上传</button> 
+  <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+    预览图：
+    <div class="layui-upload-list" id="demo2"></div>
+ </blockquote>
 </div>
-
+ 
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>指定允许上传的文件类型</legend>
+</fieldset>
+ 
+<button type="button" class="layui-btn" id="test3"><i class="layui-icon"></i>上传文件</button>
+<button type="button" class="layui-btn layui-btn-primary" id="test4"><i class="layui-icon"></i>只允许压缩文件</button>
+<button type="button" class="layui-btn" id="test5"><i class="layui-icon"></i>上传视频</button>
+<button type="button" class="layui-btn" id="test6"><i class="layui-icon"></i>上传音频</button> 
+<div style="margin-top: 10px;">
+   
+<!-- 示例-970 -->
+<ins class="adsbygoogle" style="display:inline-block;width:970px;height:90px" data-ad-client="ca-pub-6111334333458862" data-ad-slot="3820120620"></ins>
+  
+</div>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>设定文件大小限制</legend>
+</fieldset> 
+ 
+<button type="button" class="layui-btn layui-btn-danger" id="test7"><i class="layui-icon"></i>上传图片</button>
+<div class="layui-inline layui-word-aux">
+  这里以限制 60KB 为例
+</div>
+ 
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>同时绑定多个元素，并将属性设定在元素上</legend>
+</fieldset> 
+ 
+<button class="layui-btn demoMore" lay-data="{url: '/a/'}">上传A</button>
+<button class="layui-btn demoMore" lay-data="{url: '/b/', size:5}">上传B</button>
+<button class="layui-btn demoMore" lay-data="{url: '/c/', accept: 'file',size:10}">上传C</button>
+ 
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>选完文件后不自动上传</legend>
+</fieldset>
+ 
+<div class="layui-upload">
+  <button type="button" class="layui-btn layui-btn-normal" id="test8">选择文件</button>
+  <button type="button" class="layui-btn" id="test9">开始上传</button>
+</div>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>拖拽上传</legend>
+</fieldset> 
+ 
+<div class="layui-upload-drag" id="test10">
+  <i class="layui-icon"></i>
+  <p>点击上传，或将文件拖拽到此处</p>
+  <div class="layui-hide" id="uploadDemoView">
+    <hr>
+    <img src="" alt="上传成功后渲染" style="max-width: 196px">
+  </div>
+</div>
+ 
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>高级应用：制作一个多文件列表</legend>
+</fieldset> 
+ 
+<div class="layui-upload">
+  <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button> 
+  <div class="layui-upload-list">
+    <table class="layui-table">
+      <thead>
+        <tr><th>文件名</th>
+        <th>大小</th>
+        <th>状态</th>
+        <th>操作</th>
+      </tr></thead>
+      <tbody id="demoList"></tbody>
+    </table>
+  </div>
+  <button type="button" class="layui-btn" id="testListAction">开始上传</button>
+</div> 
+  
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>绑定原始文件域</legend>
+</fieldset> 
+ 
+<input type="file" name="file" id="test20">
+ 
+          
+<script src="layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
 <script>
-function sendDel(id){
-	var con;
-	con = confirm("确认删除ID为"+id+"的常住人员么？");//弹出确认对话框
-	if(con==true){//单击确认按钮布尔变量为true
-		window.location.href = "dellocal.php?id="+id+"";
-	}
-	else window.location.href = "localtable.php";//单击取消按钮刷新页面
-
-}
-
-function sendUpdate(id){
-	window.location.href = "updatelocal.php?id="+id+"";//点击修改按钮将按钮所在行的id以get参数发送给更新页面
-}
+layui.use('upload', function(){
+  var $ = layui.jquery
+  ,upload = layui.upload;
+  
+  //普通图片上传
+  var uploadInst = upload.render({
+    elem: '#test1'
+    ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+    ,before: function(obj){
+      //预读本地文件示例，不支持ie8
+      obj.preview(function(index, file, result){
+        $('#demo1').attr('src', result); //图片链接（base64）
+      });
+    }
+    ,done: function(res){
+      //如果上传失败
+      if(res.code > 0){
+        return layer.msg('上传失败');
+      }
+      //上传成功
+    }
+    ,error: function(){
+      //演示失败状态，并实现重传
+      var demoText = $('#demoText');
+      demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+      demoText.find('.demo-reload').on('click', function(){
+        uploadInst.upload();
+      });
+    }
+  });
+  
+  //多图片上传
+  upload.render({
+    elem: '#test2'
+    ,url: '' //改成您自己的上传接口
+    ,multiple: true
+    ,before: function(obj){
+      //预读本地文件示例，不支持ie8
+      obj.preview(function(index, file, result){
+        $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">');
+        console.log(result);
+      });
+    }
+    ,done: function(res){
+      //上传完毕
+    }
+  });
+  
+  //指定允许上传的文件类型
+  upload.render({
+    elem: '#test3'
+    ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+    ,accept: 'file' //普通文件
+    ,done: function(res){
+      layer.msg('上传成功');
+      console.log(res);
+    }
+  });
+  upload.render({ //允许上传的文件后缀
+    elem: '#test4'
+    ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+    ,accept: 'file' //普通文件
+    ,exts: 'zip|rar|7z' //只允许上传压缩文件
+    ,done: function(res){
+      layer.msg('上传成功');
+      console.log(res)
+    }
+  });
+  upload.render({
+    elem: '#test5'
+    ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+    ,accept: 'video' //视频
+    ,done: function(res){
+      layer.msg('上传成功');
+      console.log(res)
+    }
+  });
+  upload.render({
+    elem: '#test6'
+    ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+    ,accept: 'audio' //音频
+    ,done: function(res){
+      layer.msg('上传成功');
+      console.log(res)
+    }
+  });
+  
+  //设定文件大小限制
+  upload.render({
+    elem: '#test7'
+    ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+    ,size: 60 //限制文件大小，单位 KB
+    ,done: function(res){
+      layer.msg('上传成功');
+      console.log(res)
+    }
+  });
+  
+  //同时绑定多个元素，并将属性设定在元素上
+  upload.render({
+    elem: '.demoMore'
+    ,before: function(){
+      layer.tips('接口地址：'+ this.url, this.item, {tips: 1});
+    }
+    ,done: function(res, index, upload){
+      var item = this.item;
+      console.log(item); //获取当前触发上传的元素，layui 2.1.0 新增
+    }
+  })
+  
+  //选完文件后不自动上传
+  upload.render({
+    elem: '#test8'
+    ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+    ,auto: false
+    //,multiple: true
+    ,bindAction: '#test9'
+    ,done: function(res){
+      layer.msg('上传成功');
+      console.log(res)
+    }
+  });
+  
+  //拖拽上传
+  upload.render({
+    elem: '#test10'
+    ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+    ,done: function(res){
+      layer.msg('上传成功');
+      layui.$('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', res.files.file);
+      console.log(res)
+    }
+  });
+  
+  //多文件列表示例
+  var demoListView = $('#demoList')
+  ,uploadListIns = upload.render({
+    elem: '#testList'
+    ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+    ,accept: 'file'
+    ,multiple: true
+    ,auto: false
+    ,bindAction: '#testListAction'
+    ,choose: function(obj){   
+      var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+      //读取本地文件
+      obj.preview(function(index, file, result){
+        var tr = $(['<tr id="upload-'+ index +'">'
+          ,'<td>'+ file.name +'</td>'
+          ,'<td>'+ (file.size/1024).toFixed(1) +'kb</td>'
+          ,'<td>等待上传</td>'
+          ,'<td>'
+            ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+            ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+          ,'</td>'
+        ,'</tr>'].join(''));
+        
+        //单个重传
+        tr.find('.demo-reload').on('click', function(){
+          obj.upload(index, file);
+        });
+        
+        //删除
+        tr.find('.demo-delete').on('click', function(){
+          delete files[index]; //删除对应的文件
+          tr.remove();
+          uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+        });
+        
+        demoListView.append(tr);
+      });
+    }
+    ,done: function(res, index, upload){
+      if(res.files.file){ //上传成功
+        var tr = demoListView.find('tr#upload-'+ index)
+        ,tds = tr.children();
+        tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+        tds.eq(3).html(''); //清空操作
+        return delete this.files[index]; //删除文件队列已经上传成功的文件
+      }
+      this.error(index, upload);
+    }
+    ,error: function(index, upload){
+      var tr = demoListView.find('tr#upload-'+ index)
+      ,tds = tr.children();
+      tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+      tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+    }
+  });
+  
+  //绑定原始文件域
+  upload.render({
+    elem: '#test20'
+    ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+    ,done: function(res){
+      layer.msg('上传成功');
+      console.log(res)
+    }
+  });
+  
+});
 </script>
+
 </body>
 </html>
