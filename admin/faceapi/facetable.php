@@ -96,31 +96,42 @@ $(document).ready(function() {//加载页面处理
 		}
 	} );
 });
-
+$.fn.dataTable.defaults.oLanguage = {
+    "sProcessing": "处理中...",
+    "sLengthMenu": "显示 _MENU_ 项结果",
+    "sZeroRecords": "没有匹配结果",
+    "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+    "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+    "sInfoPostFix": "",
+    "sSearch": "搜索：",
+    "sUrl": "",
+    "sEmptyTable": "表中数据为空",
+    "sLoadingRecords": "载入中...",
+    "sInfoThousands": ",",
+    "oPaginate": {
+        "sFirst": "首页",
+        "sPrevious": "上页",
+        "sNext": "下页",
+        "sLast": "末页"
+    },
+    "oAria": {
+        "sSortAscending": ": 以升序排列此列",
+        "sSortDescending": ": 以降序排列此列"
+    }
+};
 </script>
 <!--main_top-->
-<table width="99%" border="0" cellspacing="0" cellpadding="0" id="searchmain">
-  <tr>
-    <td width="99%" align="left" valign="top">您的位置：人脸库管理</td>
-  </tr>
-  <tr>
-    <td align="left" valign="top">
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
-  		<tr>
-   		 <td width="90%" align="left" valign="middle">
 
-         </td>
 
-  		</tr>
-
-	</table>
-    </td>
-  </tr>
-
-  <tr>
-    <td align="left" valign="top">
-    
-    <table id="babyTable" width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            您的位置：人脸库管理
+        </div>
+    </div>
+    <div class="panel-body">
+        <table id="babyTable" class="table table-bordered table-striped table-hover">
             <thead>
       <tr>
         <th align="center" valign="middle" class="borderright">人脸名称</th>
@@ -129,10 +140,10 @@ $(document).ready(function() {//加载页面处理
         <th align="center" valign="middle">操作</th>
       </tr>
         </thead>
-    </table></td>
-    </tr>
+        </table>
+    </div>
+</div>
 
-</table>
 <script>
 function sendDel(facename, token){
 	var con;

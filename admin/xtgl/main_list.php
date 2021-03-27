@@ -48,14 +48,14 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 <style>
 body{overflow-x:hidden; background:#f2f0f5; padding:15px 0px 10px 5px;}
 #searchmain{ font-size:12px;}
-#search{ font-size:12px; background:#548fc9; margin:10px 10px 0 0; display:inline; width:100%; color:#FFF; float:left}
+#search{ font-size:12px; background:#ffffff; margin:10px 10px 0 0; display:inline; width:100%; color:#FFF; float:left}
 #search form span{height:40px; line-height:40px; padding:0 0px 0 10px; float:left;}
 #search form input.text-word{height:24px; line-height:24px; width:180px; margin:8px 0 6px 0; padding:0 0px 0 10px; float:left; border:1px solid #FFF;}
 #search form input.text-but{height:24px; line-height:24px; width:55px; background:url(images/main/list_input.jpg) no-repeat left top; border:none; cursor:pointer; font-family:"Microsoft YaHei","Tahoma","Arial",'宋体'; color:#666; float:left; margin:8px 0 0 6px; display:inline;}
-#search a.add{ background:url(images/main/add.jpg) no-repeat -3px 7px #548fc9; padding:0 10px 0 26px; height:40px; line-height:40px; font-size:14px; font-weight:bold; color:#FFF; float:right}
+#search a.add{ background:url() no-repeat -3px 7px #548fc9; padding:0 26px 0 26px; height:40px; line-height:40px; font-size:14px; font-weight:bold; color:#FFF; float:right}
 #search a:hover.add{ text-decoration:underline; color:#d2e9ff;}
 #main-tab{ border:1px solid #eaeaea; background:#FFF; font-size:12px;}
-#main-tab th{ font-size:12px; background:url(images/main/list_bg.jpg) repeat-x; height:32px; line-height:32px;}
+#main-tab th{ font-size:12px; background:url(../images/main/list_bg.jpg) repeat-x; height:32px; line-height:32px;}
 #main-tab td{ font-size:12px; line-height:40px;}
 #main-tab td a{ font-size:12px; color:#548fc9;}
 #main-tab td a:hover{color:#565656; text-decoration:underline;}
@@ -103,31 +103,56 @@ $(document).ready(function() {//加载页面处理
 		}
 	} );
 });
-
+$.fn.dataTable.defaults.oLanguage = {
+    "sProcessing": "处理中...",
+    "sLengthMenu": "显示 _MENU_ 项结果",
+    "sZeroRecords": "没有匹配结果",
+    "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+    "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+    "sInfoPostFix": "",
+    "sSearch": "搜索：",
+    "sUrl": "",
+    "sEmptyTable": "表中数据为空",
+    "sLoadingRecords": "载入中...",
+    "sInfoThousands": ",",
+    "oPaginate": {
+        "sFirst": "首页",
+        "sPrevious": "上页",
+        "sNext": "下页",
+        "sLast": "末页"
+    },
+    "oAria": {
+        "sSortAscending": ": 以升序排列此列",
+        "sSortDescending": ": 以降序排列此列"
+    }
+};
 </script>
 <!--main_top-->
-<table width="99%" border="0" cellspacing="0" cellpadding="0" id="searchmain">
-  <tr>
-    <td width="99%" align="left" valign="top">您的位置：管理员账号</td>
-  </tr>
-  <tr>
-    <td align="left" valign="top">
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            您的位置：管理员账号
+
+        </div>
+
+    </div>
+
+
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
   		<tr>
-   		 <td width="90%" align="left" valign="middle">
+   		 <td width="88.5%" align="left" valign="middle">
 
          </td>
-  		  <td width="10%" align="center" valign="middle" style="text-align:right; width:150px;"><a href="addadmin.php" target="mainFrame" onFocus="this.blur()" class="add">新增管理员</a></td>
+  		  <td width="10%"  align="center" valign="middle" style="text-align:right; width:150px;"><a href="addadmin.php" target="mainFrame" onFocus="this.blur()" class="add btn btn-default btn-lg">新增管理员</a></td>
   		</tr>
-
+  		
 	</table>
-    </td>
-  </tr>
 
-  <tr>
-    <td align="left" valign="top">
-    
-    <table id="babyTable" width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
+    <div class="panel-body">
+        <table id="babyTable" class="table table-bordered table-striped table-hover">
             <thead>
       <tr>
         <th align="center" valign="middle" class="borderright">用户名</th>
@@ -135,14 +160,14 @@ $(document).ready(function() {//加载页面处理
         <th align="center" valign="middle" class="borderright">权限</th>
         <th align="center" valign="middle" class="borderright">联系方式</th>
         <th align="center" valign="middle" class="borderright">名字</th>
-        <th align="center" valign="middle" class="borderright">名字</th>
+        <th align="center" valign="middle" class="borderright">身份证号</th>
         <th align="center" valign="middle">操作</th>
       </tr>
-        </thead>
-    </table></td>
-    </tr>
 
-</table>
+        </thead>
+        </table>
+    </div>
+</div>
 <script>
 function sendDel(id){
 	var con;

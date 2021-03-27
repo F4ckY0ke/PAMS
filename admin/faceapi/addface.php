@@ -1,14 +1,45 @@
+<?php
+//  防止全局变量造成安全隐患
+$admin = false;
+//  启动会话，这步必不可少
+session_start();
+//  判断是否登陆
+if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
+	$adminid = $_SESSION["adminid"];
+	$mode = $_SESSION["mode"];
+	if($mode < '4'){
+		die("您没有权限访问！");
+	}
+} else {
+    //  验证失败，将 $_SESSION["admin"] 置为 false
+    $_SESSION["admin"] = false;
+	  echo "<script type=\"text/javascript\">
+	   confirm('您还未登录！');
+	   window.location.href = '../login.html';
+	   </script>";
+}
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>上传人脸</title>
 
+<link href="../css/css.css" type="text/css" rel="stylesheet" />
+<link href="../css/main.css" type="text/css" rel="stylesheet" />
+<link rel="shortcut icon" href="../images/main/favicon.ico" />
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="../bootstrap/bootstrap.min.css">  
+<script src="../bootstrap/jquery.min.js"></script>
+<script src="../bootstrap/bootstrap.min.js"></script>
  
 <!-- jQuery -->
 <script type="text/javascript" charset="utf8" src="../DataTables/js/jquery.js"></script>
 
 <style>
+body{overflow-x:hidden; background:#f2f0f5; padding:15px 0px 10px 5px;}
+
     #box{
       width: 454px;
       height: 340px;
@@ -27,22 +58,32 @@
 
 </head>
 
-<body>
-<body>
+
+<body style="text-align:center">
 <form action="pushaddface.php" method="post">
 	<input type="hidden"  id="facebase" name="facebase">
-	<div id="box">
+	<div id="box" style="margin-left:33%">
 		<img id="imgshow" src="page.png" alt=""/>
 	</div>
+
+
+			<div class="col-lg-6">
+				<div class="input-group">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button">
+							人脸名称
+						</button>
+					</span>
+					<input type="text" class="form-control" name="facename">
+				</div><!-- /input-group -->
+	 		</div>
+
 	<div id="pox">
 		<input id="filed" type="file" accept="image/*"/>
 	</div>
-	<div>
-		人脸名称：<input type="text" name="facename" />
-	</div>
-	<input type="submit" value="提交"/>
+	<input type="submit" class="btn btn-primary" value="提交"/>
 </form>
-</body>
+
 
 </body>
 

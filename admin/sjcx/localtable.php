@@ -67,6 +67,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 </head>
 <body>
 <script>
+
 $(document).ready(function() {//加载页面处理
 	$('#babyTable').DataTable( {//发送请求把返回的json数据输出到表格babyTable
 		"ajax": {
@@ -100,33 +101,44 @@ $(document).ready(function() {//加载页面处理
 			    '</div>');
 			$('td', row).eq(-1).append($btn);//在最后一列插入按钮数据
 		}
+		
 	} );
+
 });
-
+$.fn.dataTable.defaults.oLanguage = {
+    "sProcessing": "处理中...",
+    "sLengthMenu": "显示 _MENU_ 项结果",
+    "sZeroRecords": "没有匹配结果",
+    "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+    "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+    "sInfoPostFix": "",
+    "sSearch": "搜索：",
+    "sUrl": "",
+    "sEmptyTable": "表中数据为空",
+    "sLoadingRecords": "载入中...",
+    "sInfoThousands": ",",
+    "oPaginate": {
+        "sFirst": "首页",
+        "sPrevious": "上页",
+        "sNext": "下页",
+        "sLast": "末页"
+    },
+    "oAria": {
+        "sSortAscending": ": 以升序排列此列",
+        "sSortDescending": ": 以降序排列此列"
+    }
+};
 </script>
-<!--main_top-->
-<table width="99%" border="0" cellspacing="0" cellpadding="0" id="searchmain">
-  <tr>
-    <td width="99%" align="left" valign="top">您的位置：常住人员管理</td>
-  </tr>
-  <tr>
-    <td align="left" valign="top">
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
-  		<tr>
-   		 <td width="90%" align="left" valign="middle">
 
-         </td>
-  		  <td width="10%" align="center" valign="middle" style="text-align:right; width:150px;"><a href="addlocal.php" target="mainFrame" onFocus="this.blur()" class="add">新增常住人员</a></td>
-  		</tr>
-
-	</table>
-    </td>
-  </tr>
-
-  <tr>
-    <td align="left" valign="top">
-    
-    <table id="babyTable" width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            您的位置：常住人员管理
+        </div>
+    </div>
+    <div class="panel-body">
+        <table id="babyTable" class="table table-bordered table-striped table-hover">
             <thead>
       <tr>
         <th align="center" valign="middle" class="borderright">编号</th>
@@ -140,10 +152,10 @@ $(document).ready(function() {//加载页面处理
         <th align="center" valign="middle">操作</th>
       </tr>
         </thead>
-    </table></td>
-    </tr>
+        </table>
+    </div>
+</div>
 
-</table>
 <script>
 function sendDel(id){
 	var con;
