@@ -42,7 +42,7 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
    <script src="../js/jquery-3.3.1.min.js" charset="utf-8"></script>
    <link rel="stylesheet" href="../myicon/iconfont.css"  media="all">
    <style>
-   body{overflow-x:hidden; background:#f2f0f5; padding:15px 0px 10px 5px;}
+   body{overflow-x:hidden; background:#f2f0f5; padding:15px 0px 10px 5px;text-align:center}
         .layui-upload-drag-self {
             background-color: #fbfdff;
             border: 1px dashed #c0ccda;
@@ -57,14 +57,14 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
             cursor: pointer;
             outline: 0;
             margin-right: 13px;
-            float: left;
+            float: none;
         }
 
         .layui-input-inlines-self {
             position: relative;
-            margin-left: 90px;
+            margin-left: 0px;
             min-height: 36px;
-            text-align: left;
+            text-align: center;
         }
 
         .layui-upload-drag-self .layui-icon {
@@ -115,10 +115,10 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
                         <div class="layui-card-body " style="background:#f2f0f5;">
                             <div class="layui-form layui-table-form layui-upload" style="text-align: center" action="" lay-filter="cfg-form" id="cfg-form">
                                 <div class="layui-form-item" id="imgItem">
-                                    <label class="layui-form-label" style="padding:1px">上传人脸：</label>
+                                    
                                     <button type="button" id="importModel" class="layui-hide">图片导入</button>
-                                    <div class="layui-input-inlines-self" id="imgItemInfo">
-                                        <div class="layui-upload-drag-self" id="importImg0">
+                                    <div class="layui-input-inlines-self" id="imgItemInfo" >
+                                        <div class="layui-upload-drag-self" id="importImg0" style="float:none">
                                             <div id="imgDivs0">
                                                 <i class="layui-icon iconfont" id="uploadIcon0">+</i>
                                             </div>
@@ -130,13 +130,13 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
                     </div>
                 </div>
                 			<div class="col-lg-6 text-center" style="width:1278.6px"> 
-				<div class="input-group " style="width:1278.6px">
+				<div class="input-group " style="width:280px;margin:0 auto;" id="facenamegroup">
 					<span class="input-group-btn" >
-						<button class="btn btn-default" type="button">
+						<button class="btn btn-default btn-lg" type="button">
 							人脸名称
 						</button>
 					</span>
-					<input type="text" class="form-control" name="facename" id="facename" style="width:15%">
+					<input type="text" class="form-control input-lg" name="facename" id="facename" style="width:100%">
 				</div><!-- /input-group -->
 				<br>
 				<div>
