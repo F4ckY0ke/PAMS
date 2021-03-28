@@ -1,3 +1,21 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>上传人脸</title>
+
+<link href="../css/css.css" type="text/css" rel="stylesheet" />
+<link href="../css/main.css" type="text/css" rel="stylesheet" />
+<link rel="shortcut icon" href="../images/main/favicon.ico" />
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="../bootstrap/bootstrap.min.css">  
+<script src="../bootstrap/jquery.min.js"></script>
+<script src="../bootstrap/bootstrap.min.js"></script>
+ 
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8" src="../DataTables/js/jquery.js"></script>
+
   <link rel="stylesheet" href="layui/css/layui.css"  media="all">
    <script src="layui/layui.js" charset="utf-8"></script>
    <script src="js/jquery-3.3.1.min.js" charset="utf-8"></script>
@@ -68,7 +86,8 @@
                 margin: 0 4px;
             }
     </style>
- 
+ </head>
+<body>
  <div class="layui-col-md12 layui-col-sm6 layui-col-xs12">
                     <div class="layui-card">
                         <div class="layui-card-body">
@@ -88,8 +107,50 @@
                         </div>
                     </div>
                 </div>
-
+<input type="button" class="btn" value="提交" onClick="ss()">
   <script>
+  function post(URL, PARAMS) {
+  var temp = document.createElement("form");
+  temp.action = URL;
+  temp.method = "post";
+  temp.style.display = "none";
+  for (var x in PARAMS) {
+    var opt = document.createElement("textarea");
+    opt.name = x;
+    opt.value = PARAMS[x];
+    // alert(opt.name)
+    temp.appendChild(opt);
+  }
+  document.body.appendChild(temp);
+  temp.submit();
+  return temp;
+}
+
+
+function ss(){
+	var arr=[];
+	var json = {};
+	var a=	document.querySelectorAll(".layui-upload-img");
+
+	for(let i in a){
+//   	console.log(i);
+//   	console.log(i.src);
+          json[i]=a[i].src;
+   	};
+//   	cnosole.log()
+//	console.log(arr);
+//	for(var i=0;i<arr.length;i++){
+//		console.log(a[i]);
+//		json[i]=a[i];
+//	};
+	var jss = JSON.stringify(json);
+	console.log(jss);
+
+ 	post('faceapi/test.php', {cm1:jss});
+
+}
+
+  
         layui.use('upload', function () {
         //layui.use(['div', 'layer', 'upload'], function () {
             var $ = layui.jquery,
@@ -99,6 +160,7 @@
 
             //删除图片
             $(document).on('click', '[id^=delImg]', function () {
+            	
                 var importImgF = $('#imgItemInfo').find('div:first');//importImg0、importImg1、importImg2
                 var empt = $(this).parent().parent().parent();//importImg0、importImg1、importImg2
                 var nextImgSrc = $(this).parent().parent().parent().next().find('img').attr('src');//src
@@ -162,7 +224,8 @@
             upload.render({
                 elem: '#importModel'
                 , multiple: true
-//                , url: 'Upload' //改成您自己的上传接口
+                , url: 'faceapi/apiinfo.php' //改成您自己的上传接口
+
                 , before: function (obj) {
                     
                     obj.preview(function(index, file, result){
@@ -179,7 +242,7 @@
                             '<i class="layui-icon icon-myself iconfont" id="delImg' + count + '">&#xe665;</i>' +
                             '</div>' + '</div>' + '</div>'
                         );
-                        console.log(result);
+                        //console.log(result);
       });
                 return false;
                 }
@@ -187,3 +250,6 @@
             });
         });
     </script>
+
+</body>
+    </html>

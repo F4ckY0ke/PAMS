@@ -61,34 +61,48 @@ $client = new AipFace(APP_ID, API_KEY, SECRET_KEY);
 
 $groupId = "$jieguo[3]";
 
-$userId = $_POST["facename"];
-
-$image = $_POST["facebase"];
-
 $imageType = "BASE64";
-//echo $image;
-//echo "</br>";
-//echo substr($image,23);
-$image = substr($image,23);
-//// 调用人脸注册
-//$client->addUser($image, $imageType, $groupId, $userId);
 
-// 如果有可选参数
 $options = array();
 $options["liveness_control"] = "NORMAL";
 
-// 带参数调用人脸注册
-$res = $client->addUser($image, $imageType, $groupId, $userId, $options);
-if ($res['error_msg'] == 'SUCCESS'){
-	echo "<script type=\"text/javascript\">
-		confirm('添加人脸成功！');
-		window.location.href = 'addface.php';
-		</script>";
+$json = $_POST["cm1"];
+$userId = $_POST["cm2"];
+if (!empty($json) && !empty($userId)){
+	$sz=json_decode($_POST["cm1"],true);
+	$length=count($sz);
+	for($i=0;$i<$length;$i++){
+		$image = $sz[$i];
+		$image = substr($image,23);
+		$res = $client->addUser($image, $imageType, $groupId, $userId, $options);
+		if ($res['error_msg'] == 'SUCCESS'){
+			$j = $i + 1;
+			echo "<script type=\"text/javascript\">
+				confirm('第{$j}张人脸添加成功！');
+				</script>";
+		}
+		else{
+			$j = $i + 1;
+			echo "<script type=\"text/javascript\">
+				confirm('第{$j}张人脸添加失败！错误:{$res['error_msg']}');
+				</script>";
+		}
+	};     
+	
+	echo "<script type=\"text/javascript\">window.location.href = 'addface.php';</script>";
 }
 else{
 	echo "<script type=\"text/javascript\">
-		confirm('添加人脸失败！错误:{$res['error_msg']}');
+		confirm('人脸名称不能为空！');
 		window.location.href = 'addface.php';
 		</script>";
 }
+
+
+
+
+
+
+	
+	
 ?>

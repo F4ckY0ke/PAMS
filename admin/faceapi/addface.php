@@ -37,77 +37,256 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 <!-- jQuery -->
 <script type="text/javascript" charset="utf8" src="../DataTables/js/jquery.js"></script>
 
-<style>
-body{overflow-x:hidden; background:#f2f0f5; padding:15px 0px 10px 5px;}
+  <link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+   <script src="../layui/layui.js" charset="utf-8"></script>
+   <script src="../js/jquery-3.3.1.min.js" charset="utf-8"></script>
+   <link rel="stylesheet" href="../myicon/iconfont.css"  media="all">
+   <style>
+   body{overflow-x:hidden; background:#f2f0f5; padding:15px 0px 10px 5px;}
+        .layui-upload-drag-self {
+            background-color: #fbfdff;
+            border: 1px dashed #c0ccda;
+            border-radius: 6px;
+            box-sizing: border-box;
+            width: 148px;
+            height: 148px;
+            line-height: 148px;
+            vertical-align: top;
+            display: inline-block;
+            text-align: center;
+            cursor: pointer;
+            outline: 0;
+            margin-right: 13px;
+            float: left;
+        }
 
-    #box{
-      width: 454px;
-      height: 340px;
-      border: 2px solid #858585;
-    }
-    #imgshow{
-      width: 100%;
-      height: 100%;
-    }
-    #pox{
-      width: 70px;
-      height: 24px;
-      overflow: hidden;
-    }
-  </style>
+        .layui-input-inlines-self {
+            position: relative;
+            margin-left: 90px;
+            min-height: 36px;
+            text-align: left;
+        }
 
-</head>
+        .layui-upload-drag-self .layui-icon {
+            font-size: 28px;
+            color: #8c939d
+        }
+
+        .layui-upload-drag-self .img {
+            position: relative;
+            height: 148px;
+            width: 148px;
+        }
+
+        .layui-upload-img {
+            width: 148px;
+            height: 148px;
+            border-radius: 6px;
+            margin-top: -3px;
+            margin-left: -2px;
+        }
 
 
-<body style="text-align:center">
-<form action="pushaddface.php" method="post">
-	<input type="hidden"  id="facebase" name="facebase">
-	<div id="box" style="margin-left:33%">
-		<img id="imgshow" src="page.png" alt=""/>
-	</div>
+        .handle {
+            position: absolute;
+            width: 148px;
+            height: 100%;
+            z-index: 100;
+            border-radius: 6px;
+            top: 0;
+            background: rgba(59, 60, 61, 0.6);
+            text-align: center;
+        }
 
-
-			<div class="col-lg-6">
-				<div class="input-group">
-					<span class="input-group-btn">
+            .handle .icon-myself {
+                z-index: 999;
+                transition: all .3s;
+                cursor: pointer;
+                font-size: 25px;
+                width: 25px;
+                color: rgba(255, 255, 255, 0.91);
+                margin: 0 4px;
+            }
+    </style>
+ </head>
+<body>
+ <div class="layui-col-md12 layui-col-sm6 layui-col-xs12">
+                    <div class="layui-card">
+                        <div class="layui-card-body " style="background:#f2f0f5;">
+                            <div class="layui-form layui-table-form layui-upload" style="text-align: center" action="" lay-filter="cfg-form" id="cfg-form">
+                                <div class="layui-form-item" id="imgItem">
+                                    <label class="layui-form-label" style="padding:1px">上传人脸：</label>
+                                    <button type="button" id="importModel" class="layui-hide">图片导入</button>
+                                    <div class="layui-input-inlines-self" id="imgItemInfo">
+                                        <div class="layui-upload-drag-self" id="importImg0">
+                                            <div id="imgDivs0">
+                                                <i class="layui-icon iconfont" id="uploadIcon0">+</i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                			<div class="col-lg-6 text-center" style="width:1278.6px"> 
+				<div class="input-group " style="width:1278.6px">
+					<span class="input-group-btn" >
 						<button class="btn btn-default" type="button">
 							人脸名称
 						</button>
 					</span>
-					<input type="text" class="form-control" name="facename">
+					<input type="text" class="form-control" name="facename" id="facename" style="width:15%">
 				</div><!-- /input-group -->
+				<br>
+				<div>
+				<input type="button" class="btn btn-primary btn-lg" value="提交" onClick="ss()">
+				</div>
 	 		</div>
 
-	<div id="pox">
-		<input id="filed" type="file" accept="image/*"/>
-	</div>
-	<input type="submit" class="btn btn-primary" value="提交"/>
-</form>
+  <script>
+  function post(URL, PARAMS) {
+  var temp = document.createElement("form");
+  temp.action = URL;
+  temp.method = "post";
+  temp.style.display = "none";
+  for (var x in PARAMS) {
+    var opt = document.createElement("textarea");
+    opt.name = x;
+    opt.value = PARAMS[x];
+    // alert(opt.name)
+    temp.appendChild(opt);
+  }
+  document.body.appendChild(temp);
+  temp.submit();
+  return temp;
+}
 
+
+function ss(){
+	var arr=[];
+	var json = {};
+	var a=	document.querySelectorAll(".layui-upload-img");
+
+	for(let i in a){
+//   	console.log(i);
+//   	console.log(i.src);
+          json[i]=a[i].src;
+   	};
+//   	cnosole.log()
+//	console.log(arr);
+//	for(var i=0;i<arr.length;i++){
+//		console.log(a[i]);
+//		json[i]=a[i];
+//	};
+	var jss = JSON.stringify(json);
+	var utext = document.getElementById("facename");
+	var text = utext.value;
+	
+ 	post('pushaddface.php', {cm1:jss,cm2:text});
+
+}
+
+  
+        layui.use('upload', function () {
+        //layui.use(['div', 'layer', 'upload'], function () {
+            var $ = layui.jquery,
+                layer = layui.layer,
+                form = layui.form,
+                upload = layui.upload;
+
+            //删除图片
+            $(document).on('click', '[id^=delImg]', function () {
+            	
+                var importImgF = $('#imgItemInfo').find('div:first');//importImg0、importImg1、importImg2
+                var empt = $(this).parent().parent().parent();//importImg0、importImg1、importImg2
+                var nextImgSrc = $(this).parent().parent().parent().next().find('img').attr('src');//src
+                //判断当前DIV后面的div的url是否为空
+                if (!nextImgSrc) {
+                    //判断是否为第一个
+                    if (importImgF.attr('id') === empt.attr('id')) {
+                        //-是 ，清空第一个 最后面的删除
+                        //图片url清空
+                        empt.find('img').attr('src', '');
+                        $(this).parent().parent().addClass('layui-hide');
+                        importImgF.find('i:first').removeClass('layui-hide');
+                        count--;
+                        $('#' + 'importImg' + count).remove();
+                    } else {
+                        // -否，删除当前
+                        empt.remove();
+                    }
+                } else {
+                    //如果有值删除当前div
+                    empt.remove();
+                }
+                return false;
+            });
+
+            //图片预览
+            $(document).on('click', '[id^=preImg]', function () {
+                var iHtml = "<img src='" + $(this).parent().parent().find('img:first').attr('src') + "' style='width: 100%; height: 100%;'/>";
+                layer.open({
+                    type: 1,
+                    shade: false,
+                    title: false, //不显示标题
+                    area: ['40%', '60%'],
+                    content: iHtml //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+                });
+                return false;
+            });
+
+            //图片绑定鼠标悬浮
+            $(document).on("mouseenter", ".img", function () {
+                //鼠标悬浮
+                $(this).find('div:first').removeClass('layui-hide');
+            }).on("mouseleave", ".img", function () {
+                //鼠标离开
+                $(this).find('div:first').addClass('layui-hide');
+            });
+
+
+            var imgsId,
+                uploadDemoViewId,
+                uploadIconId;
+
+            $(document).on('click', '[id^=imgDivs]', function () {
+                //给id赋值
+                uploadIconId = $(this).find('i').attr('id');
+                uploadDemoViewId = $(this).next().attr('id');
+                imgsId = $(this).next().find('img').attr('id');
+                $('#importModel').click();
+            });
+            var count = 1;
+            upload.render({
+                elem: '#importModel'
+                , multiple: true
+                , url: 'apiinfo.php' //改成您自己的上传接口
+
+                , before: function (obj) {
+                    
+                    obj.preview(function(index, file, result){
+
+ $('#imgItemInfo').append(
+                            '<div class="layui-upload-drag-self" id="importImg' + count + '">' +
+                            '<div id="imgDivs' + count + '">' +
+                            '<i class="layui-icon layui-hide" id="uploadIcon' + count + '"> &#xe624; </i>' +
+                            '</div>' +
+                            '<div class="img" id="uploadDemoView' + count + '">' +
+                            '<img class="layui-upload-img" id="imgs' + count + '" src="'+ result +'">' +
+                            '<div class="handle layui-hide" id="handle' + count + '">' +
+                            '<i class="layui-icon icon-myself iconfont" id="preImg' + count + '">&#xe633;</i>' +
+                            '<i class="layui-icon icon-myself iconfont" id="delImg' + count + '">&#xe665;</i>' +
+                            '</div>' + '</div>' + '</div>'
+                        );
+                        //console.log(result);
+      });
+                return false;
+                }
+                
+            });
+        });
+    </script>
 
 </body>
-
-<script>
-    //在input file内容改变的时候触发事件
-    $('#filed').change(function(){
-    //获取input file的files文件数组;
-    //$('#filed')获取的是jQuery对象，.get(0)转为原生对象;
-    //这边默认只能选一个，但是存放形式仍然是数组，所以取第一个元素使用[0];
-      var file = $('#filed').get(0).files[0];
-    //创建用来读取此文件的对象
-      var reader = new FileReader();
-    //使用该对象读取file文件
-      reader.readAsDataURL(file);
-    //读取文件成功后执行的方法函数
-      reader.onload=function(e){
-    //读取成功后返回的一个参数e，整个的一个进度事件
-        console.log(e);
-    //选择所要显示图片的img，要赋值给img的src就是e中target下result里面
-    //的base64编码格式的地址
-    document.getElementById("facebase").value = e.target.result;
-        $('#imgshow').get(0).src = e.target.result;
-      }
-    })
-</script>
-
-</html>
+    </html>
