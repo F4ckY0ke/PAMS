@@ -10,13 +10,17 @@ import requests
 import base64
 import os
 import MySQLdb
-import time
+from configparser import ConfigParser
 
-DBIP = '124.71.190.194'
-DBID = 'pamadmin'
-DBPWD = '123456'
-DBNAME = 'PAMS'
-SHEBEIID = '西1门'
+cfg = ConfigParser()
+cfg.read('shebei.ini')
+
+
+DBIP = cfg.get('server', 'DBIP')
+DBID = cfg.get('server', 'DBID')
+DBPWD = cfg.get('server', 'DBPWD')
+DBNAME = cfg.get('server', 'DBNAME')
+SHEBEIID = cfg.get('server', 'SHEBEIID')
 # 打开数据库连接
 db = MySQLdb.connect(DBIP, DBID, DBPWD, DBNAME, charset='utf8')
 
@@ -37,6 +41,9 @@ try:
        if lines[0] == 'QRSECRET_KEY':  QRSECRET_KEY = lines[1]
        if lines[0] == 'ACCESS_TOKEN':  ACCESS_TOKEN = lines[1]
        if lines[0] == 'FACE_SCORE':  FACE_SCORE = int(lines[1])
+       if lines[0] == 'QUALITY_CONTROL':  QUALITY_CONTROL = lines[1]
+       if lines[0] == 'LIVENESS_CONTROL':  LIVENESS_CONTROL = lines[1]
+
    # 从数据库取，失效的话在下面更新到数据库
 except:
    print("Error: 无法生成数据")
@@ -259,6 +266,8 @@ class MainWindow(QTabWidget, Ui_DOORSYS):
         groupIdList = "user1"
 
         options = {}
+        options["quality_control"] = QUALITY_CONTROL
+        options["liveness_control"] = LIVENESS_CONTROL
 
         """ 调用人脸搜索 """
         list1 = client.search(image, imageType, groupIdList, options)
@@ -269,6 +278,7 @@ class MainWindow(QTabWidget, Ui_DOORSYS):
                     scorelist.append(list1['result']['user_list'][i]['score'])
                 maxscore = max(scorelist)
                 if maxscore >= FACE_SCORE:
+
                     # print(list1['result']['user_list'][scorelist.index(maxscore)]['user_id'])  # 查询数据库验证用户合法性
                     checkFACENAME = list1['result']['user_list'][scorelist.index(maxscore)]['user_id']
 
@@ -290,15 +300,23 @@ class MainWindow(QTabWidget, Ui_DOORSYS):
                     if USERFLAG == 1:
                         self.FACEIMG.setText("欢迎回家")  # 发送开门指令
                         self.FACETIP.setText("")
-                        self.onesecond.start(1500)
+                        self.onesecond.start(3000)
                     else:
                         self.FACEIMG.setText("人脸认证失败")
                         self.FACETIP.setText("")
-                        self.onesecond.start(1500)  # 延迟1.5秒回到主页
+                        self.onesecond.start(3000)  # 延迟1.5秒回到主页
                 else:
                     self.FACEIMG.setText("人脸认证失败")
                     self.FACETIP.setText("")
-                    self.onesecond.start(1500)  # 延迟1.5秒回到主页
+                    self.onesecond.start(3000)  # 延迟1.5秒回到主页
+            else:
+                self.FACEIMG.setText("人脸认证失败")
+                self.FACETIP.setText("")
+                self.onesecond.start(3000)  # 延迟1.5秒回到主页
+        else:
+            self.FACEIMG.setText("人脸认证失败")
+            self.FACETIP.setText("")
+            self.onesecond.start(3000)  # 延迟1.5秒回到主页
 
 
 def show(code):  # 使用下一句把图像显示出来
