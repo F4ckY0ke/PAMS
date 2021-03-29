@@ -1,61 +1,64 @@
 <?php
-
 $admin = false;
 session_start();
-$repassword = $_POST["password"];
-$reusername = $_POST["username"]; 
-if ($reusername != null){
-		$ini = parse_ini_file(".dbuser.ini");//读取配置文件
-		// 创建连接
-		$conn = new mysqli($ini["dbservername"], $ini["dbusername"], $ini["dbpassword"], $ini["dbname"]);
-		// Check connection
-		if ($conn->connect_error) {
-		    die("连接失败: " . $conn->connect_error);
-		} 
-		
-		
-		$sql = "SELECT USER,PASSWORD,MODE FROM U_ADMIN where USER='$reusername';";
-		$result = $conn->query($sql);
-		 
-		if ($result->num_rows > 0) {
-		    // 输出数据
-		    $admin = array();
-		    $pwd = array();
-		    $mode = array();
-		    while($row = $result->fetch_assoc()) {
-		        //echo "id: " . $row["id"]. " - Name: " . $row["img"]. " " . $row["name"]. "<br>";
-		        array_push($admin, $row["USER"]);
-		        array_push($pwd, $row["PASSWORD"]);
-		        array_push($mode, $row["MODE"]);
-		        if(password_verify($repassword, $pwd[0])){
-		        	session_start();
-		        	$_SESSION["admin"] = true;
-		        	$_SESSION["adminid"] = $admin[0];
-		        	$_SESSION["mode"] = $mode[0];
-		        }
-		        else{
-					echo "<script type=\"text/javascript\">
-					confirm('账号或密码错误！');
-					window.location.href = 'login.html';
-					</script>";
-		        }
-		    }
-		} else {
-		       echo "<script type=\"text/javascript\">
-		        confirm('登陆失败，请重试！');
-		        window.location.href = 'login.html';
-		        </script>";
+	if (isset($_REQUEST['authcode'])) {
+		if (strtolower($_REQUEST['authcode'])==$_SESSION['authcode']) {//判断验证码是否正确
+
+			$repassword = $_POST["password"];
+			$reusername = $_POST["username"]; 
+			if ($reusername != null){
+					$ini = parse_ini_file(".dbuser.ini");//读取配置文件
+					// 创建连接
+					$conn = new mysqli($ini["dbservername"], $ini["dbusername"], $ini["dbpassword"], $ini["dbname"]);
+					// Check connection
+					if ($conn->connect_error) {
+					    die("连接失败: " . $conn->connect_error);
+					} 
+					
+					
+					$sql = "SELECT USER,PASSWORD,MODE FROM U_ADMIN where USER='$reusername';";
+					$result = $conn->query($sql);
+					 
+					if ($result->num_rows > 0) {
+					    // 输出数据
+					    $admin = array();
+					    $pwd = array();
+					    $mode = array();
+					    while($row = $result->fetch_assoc()) {
+					        //echo "id: " . $row["id"]. " - Name: " . $row["img"]. " " . $row["name"]. "<br>";
+					        array_push($admin, $row["USER"]);
+					        array_push($pwd, $row["PASSWORD"]);
+					        array_push($mode, $row["MODE"]);
+					        if(password_verify($repassword, $pwd[0])){
+					        	session_start();
+					        	$_SESSION["admin"] = true;
+					        	$_SESSION["adminid"] = $admin[0];
+					        	$_SESSION["mode"] = $mode[0];
+					        }
+					        else{
+								echo "<script type=\"text/javascript\">
+								confirm('账号或密码错误！');
+								window.location.href = 'login.php';
+								</script>";
+					        }
+					    }
+					} else {
+					       echo "<script type=\"text/javascript\">
+					        confirm('登陆失败，请重试！');
+					        window.location.href = 'login.php';
+					        </script>";
+					}
+					$conn->close();
+			}
+
+		}else{
+			echo "<script type=\"text/javascript\">
+			confirm('验证码错误！');
+			window.location.href = 'index.php';
+			</script>";
 		}
-		$conn->close();
-}
-?>
+	}
 
-<?php
-//  防止全局变量造成安全隐患
-$admin = false;
-//  启动会话，这步必不可少
-
-//  判断是否登陆
 if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	$admin = $_SESSION["admin"];
 	$adminid = $_SESSION["adminid"];
@@ -64,7 +67,7 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
     $_SESSION["admin"] = false;
 	  echo "<script type=\"text/javascript\">
 	   confirm('您还未登录！');
-	   window.location.href = 'login.html';
+	   window.location.href = 'login.php';
 	   </script>";
 }
 ?>

@@ -15,7 +15,7 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
     $_SESSION["admin"] = false;
 	  echo "<script type=\"text/javascript\">
 	   confirm('您还未登录！');
-	   window.location.href = 'login.html';
+	   window.location.href = 'login.php';
 	   </script>";
 }
 $ini = parse_ini_file(".dbuser.ini");//读取配置文件
@@ -40,7 +40,7 @@ $ini = parse_ini_file(".dbuser.ini");//读取配置文件
 		} else {
 		       echo "<script type=\"text/javascript\">
 		        confirm('查询数据失败，请重试！');
-		        window.location.href = 'login.html';
+		        window.location.href = 'login.php';
 		        </script>";
 		}
 		$conn->close();

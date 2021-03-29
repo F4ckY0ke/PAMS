@@ -34,6 +34,7 @@ $ini = parse_ini_file("admin/.dbuser.ini");//读取配置文件
 <head>
 <meta charset="utf-8"> 
 <title>小区访客登记</title> 
+<link rel="shortcut icon" href="favicon.ico" />
 
 </head>
 <body>

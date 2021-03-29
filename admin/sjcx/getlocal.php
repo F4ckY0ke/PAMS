@@ -15,7 +15,7 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
     $_SESSION["admin"] = false;
 	  echo "<script type=\"text/javascript\">
 	   confirm('您还未登录！');
-	   window.location.href = '../login.html';
+	   window.location.href = '../login.php';
 	   </script>";
 }
 header("content-Type: text/html; charset=utf-8");//字符编码设置 

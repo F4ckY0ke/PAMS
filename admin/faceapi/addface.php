@@ -7,7 +7,7 @@ session_start();
 if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	$adminid = $_SESSION["adminid"];
 	$mode = $_SESSION["mode"];
-	if($mode < '4'){
+	if($mode == '0' || $mode == '2' || $mode == '4' || $mode == '6'){
 		die("您没有权限访问！");
 	}
 } else {
@@ -15,7 +15,7 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
     $_SESSION["admin"] = false;
 	  echo "<script type=\"text/javascript\">
 	   confirm('您还未登录！');
-	   window.location.href = '../login.html';
+	   window.location.href = '../login.php';
 	   </script>";
 }
 ?>

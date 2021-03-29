@@ -15,7 +15,7 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
     $_SESSION["admin"] = false;
 	  echo "<script type=\"text/javascript\">
 	   confirm('您还未登录！');
-	   window.location.href = '../login.html';
+	   window.location.href = '../login.php';
 	   </script>";
 }
 $facename = $_POST["FACENAME"];
