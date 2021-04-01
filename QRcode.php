@@ -91,19 +91,51 @@ function isCreditNo($vStr){
 <!DOCTYPE html>
 <html>
 <head>
-<title>basic example</title>
+<title>二维码认证</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<script src="admin/js/jquery.js"></script>
+	<script type="text/javascript" src="admin/jquery-qrcode-master/src/jquery.qrcode.js"></script>
+	<script type="text/javascript" src="admin/jquery-qrcode-master/src/qrcode.js"></script>
+
+	<script src="js/main.js"></script>
+
 </head>
 <body>
-<script src="admin/js/jquery.js"></script>
-<script type="text/javascript" src="admin/jquery-qrcode-master/src/jquery.qrcode.js"></script>
-<script type="text/javascript" src="admin/jquery-qrcode-master/src/qrcode.js"></script>
-<h1>使用二维码认证</h1>
-<div id="qrcodeCanvas"></div>
+
+
+
+
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <div class="login100-form-title" style="background-image: url(images/bg-01.jpg);">
+                    <span class="login100-form-title-1">二维码认证扫码进入</span>
+                </div>
+				<div id="qrcodeCanvas" style="text-align: center;margin: 20px;"></div>
+                <form class="login100-form validate-form" method="get" action="./index.php" style="padding-top: 10px;">
+                    <div class="container-login100-form-btn" style="text-align:center;display:inline">
+                        <button class="login100-form-btn" style="display:inline">再次登记</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 <script>
 	jQuery('#qrcodeCanvas').qrcode({
 		text	: "<?php echo $QRcode?>"
 	});	
 </script>
 
+
+
+
 </body>
+<style>
+.copyrights{text-indent:-9999px;height:0;line-height:0;font-size:0;overflow:hidden;}
+</style>
+
 </html>
