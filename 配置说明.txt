@@ -1,0 +1,24 @@
+新建PAMS数据库
+执行sql文件恢复数据库数据和结构到PAMS数据库
+mysql新建用户
+CREATE USER 'pamadmin'@'%' IDENTIFIED BY '123456';
+授权用户
+GRANT ALL PRIVILEGES ON PAMS.* TO 'pamadmin'@'%';
+FLUSH PRIVILEGES;
+
+开启实时更新事件CHECKCODEFLAG
+
+首页图片更新：
+将图片覆盖index.png，在目录下执行
+pyrcc5 resource.qrc -o resource_rc.py
+将图片更新到py文件
+
+服务器：修改admin文件夹下.dbuser.ini配置文件
+门禁端：修改doorsys文件夹下shebei.ini配置文件
+
+打包py:
+把项目文件夹PAMS复制到C:\Users\F4ckY0ke\Anaconda3\Lib\site-packages中
+在项目文件夹PAMS下的doorsys文件夹中打开powershell并执行pyinstaller.exe -F -w .\doormain.py
+生成dist文件夹下的exe文件，需要在同级目录下添加文件：
+1.shebei.dll
+2.haarcascade_frontalface_alt2.xml
