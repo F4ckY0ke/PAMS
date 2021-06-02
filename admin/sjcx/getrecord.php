@@ -26,8 +26,18 @@ $ini = parse_ini_file("../.dbuser.ini");//读取配置文件
 if ($conn->connect_error) { 
   die("Connection failed: " . $conn->connect_error); 
 } 
-  
-$sql = "SELECT * FROM L_VISIT;"; 
+$mintime = $_GET["mintime"];
+$maxtime = $_GET["maxtime"];
+$mintime = str_replace("|"," ", $mintime);
+$maxtime = str_replace("|"," ", $maxtime);
+$tiaojian = "";
+if ($mintime != ""){
+	$tiaojian = $tiaojian . "AND V_TIME >= STR_TO_DATE(\"" . $mintime . "\", '%Y-%m-%d %H:%i:%s')";
+}
+if ($maxtime != ""){
+	$tiaojian = $tiaojian . "AND V_TIME <= STR_TO_DATE(\"" . $maxtime . "\", '%Y-%m-%d %H:%i:%s')";
+}
+$sql = "SELECT * FROM L_VISIT WHERE 1=1 " .$tiaojian; 
 $result = $conn->query($sql); 
   
 $arr = array(); 

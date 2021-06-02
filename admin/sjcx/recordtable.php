@@ -18,6 +18,8 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 	   window.location.href = '../login.php';
 	   </script>";
 }
+$mintime = $_GET["mintime"];
+$maxtime = $_GET["maxtime"];
 ?>
 <html>
 <head>
@@ -41,6 +43,8 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 <!-- DataTables -->
 <script type="text/javascript" charset="utf8" src="../DataTables/js/jquery.dataTables.js"></script>
 
+ <!-- My97DatePicker -->
+<script language="javascript" type="text/javascript" src="../My97DatePicker/WdatePicker.js"></script>
 
 <style>
 body{overflow-x:hidden; background:#f2f0f5; padding:15px 0px 10px 5px;}
@@ -67,10 +71,19 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 </head>
 <body>
 <script>
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return "";
+}
 $(document).ready(function() {//加载页面处理
+	mintime = GetQueryString("mintime");
+	maxtime = GetQueryString("maxtime");
+	url3 = "getrecord.php?mintime="+mintime+"&maxtime="+maxtime;
 	$('#babyTable').DataTable( {//发送请求把返回的json数据输出到表格babyTable
 		"ajax": {
-			url: "getrecord.php",
+			url: url3,
 			dataSrc: 'Data'//指明数据来源
 		},
 		
@@ -134,7 +147,12 @@ $.fn.dataTable.defaults.oLanguage = {
         </div>
     </div>
     <div class="panel-body">
-        <table id="babyTable" class="table table-bordered table-striped table-hover">
+		<table id="babyTable" class="table table-bordered table-striped table-hover">
+		<div style="text-align:center">
+			记录时间：<input class="Wdate" type="text" id="timemin" onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd|HH:mm:ss'})">
+			至<input class="Wdate" type="text" id="timemax" onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd|HH:mm:ss'})">
+			<input type="button" class="btn btn-primary" onclick="selectByTime()" value="查询">
+		</div>
             <thead>
       <tr>
         <th align="center" valign="middle" class="borderright">编号</th>
@@ -160,7 +178,12 @@ function sendDel(id){
 	else window.location.href = "recordtable.php";//单击取消按钮刷新页面
 
 }
-
+function selectByTime(){
+	mintime = document.getElementById("timemin").value;
+	maxtime = document.getElementById("timemax").value;
+	url2="recordtable.php?mintime="+mintime+"&maxtime="+maxtime;
+	window.location.href=url2;
+}
 </script>
 </body>
 </html>
