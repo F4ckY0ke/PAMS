@@ -18,7 +18,7 @@ pyrcc5 resource.qrc -o resource_rc.py
 
 打包py:
 把项目文件夹PAMS复制到C:\Users\F4ckY0ke\Anaconda3\Lib\site-packages中
-在项目文件夹PAMS下的doorsys文件夹中打开powershell并执行pyinstaller.exe -F -w .\doormain.py-i doormain.ico
+在项目文件夹PAMS下的doorsys文件夹中打开powershell并执行pyinstaller.exe --hidden-import=PAMS -F -w .\doormain.py -i doormain.ico
 生成dist文件夹下的exe文件，需要在同级目录下添加文件：
 1.shebei.dll
 2.haarcascade_frontalface_alt2.xml

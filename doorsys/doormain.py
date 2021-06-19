@@ -199,11 +199,15 @@ class MainWindow(QTabWidget, Ui_DOORSYS):
             if QRRS == 1:  # 此处返回值判断用户合法性
                 self.QRIMG.setText("欢迎光临")  # 发送开门指令
                 self.QRTIP.setText("")
-                self.onesecond.start(1500)
+                self.onesecond.start(3300)
+            elif QRRS == 2:
+                self.QRIMG.setText("红码禁入！")  # 发送开门指令
+                self.QRTIP.setText("")
+                self.onesecond.start(3300)
             else:
                 self.QRIMG.setText("失败请重试")  # 发送开门指令
                 self.QRTIP.setText("")
-                self.onesecond.start(1500)
+                self.onesecond.start(3300)
 
     def show_camera(self):
         flag, self.image = self.cap.read()
@@ -251,24 +255,15 @@ class MainWindow(QTabWidget, Ui_DOORSYS):
         self.onesecond.stop()
 
     def FaceInfo(self):
-        """ 你的 APPID AK SK """
-
         client = AipFace(APP_ID, API_KEY, SECRET_KEY)
-
         with open("Face.jpeg", "rb") as f:
-            # b64encode是编码，b64decode是解码
             image = base64.b64encode(f.read())
-            # base64.b64decode(base64data)
             image = str(image, encoding="utf-8")
-
         imageType = "BASE64"
-
         groupIdList = "user1"
-
         options = {}
         options["quality_control"] = QUALITY_CONTROL
         options["liveness_control"] = LIVENESS_CONTROL
-
         """ 调用人脸搜索 """
         list1 = client.search(image, imageType, groupIdList, options)
         scorelist = []
@@ -278,21 +273,15 @@ class MainWindow(QTabWidget, Ui_DOORSYS):
                     scorelist.append(list1['result']['user_list'][i]['score'])
                 maxscore = max(scorelist)
                 if maxscore >= FACE_SCORE:
-
-                    # print(list1['result']['user_list'][scorelist.index(maxscore)]['user_id'])  # 查询数据库验证用户合法性
                     checkFACENAME = list1['result']['user_list'][scorelist.index(maxscore)]['user_id']
-
                     db = MySQLdb.connect(DBIP, DBID, DBPWD, DBNAME, charset='utf8')
                     cursor = db.cursor()
                     global SHEBEIID
-                    # sql = "CALL CHECKRANDOM('" + SHEBEIID + "','" + checkRANDOM + "');"
-
                     cursor.callproc('CHECKFACE', args=(SHEBEIID, checkFACENAME))
                     # 提交到数据库执行
                     results = cursor.fetchall()
                     cursor.execute("select @_CHECKFACE_0")
                     res2 = cursor.fetchall()
-                    # results = list(cursor.fetchall())
                     # 关闭数据库连接
                     db.commit()
                     db.close()
@@ -300,23 +289,27 @@ class MainWindow(QTabWidget, Ui_DOORSYS):
                     if USERFLAG == 1:
                         self.FACEIMG.setText("欢迎回家")  # 发送开门指令
                         self.FACETIP.setText("")
-                        self.onesecond.start(3000)
+                        self.onesecond.start(3500)
+                    elif USERFLAG == 2:
+                        self.FACEIMG.setText("红码禁入！")  # 发送拒绝指令
+                        self.FACETIP.setText("")
+                        self.onesecond.start(3500)
                     else:
                         self.FACEIMG.setText("人脸认证失败")
                         self.FACETIP.setText("")
-                        self.onesecond.start(3000)  # 延迟1.5秒回到主页
+                        self.onesecond.start(3500)  # 延迟3.5秒回到主页
                 else:
                     self.FACEIMG.setText("人脸认证失败")
                     self.FACETIP.setText("")
-                    self.onesecond.start(3000)  # 延迟1.5秒回到主页
+                    self.onesecond.start(3500)  # 延迟3.5秒回到主页
             else:
                 self.FACEIMG.setText("人脸认证失败")
                 self.FACETIP.setText("")
-                self.onesecond.start(3000)  # 延迟1.5秒回到主页
+                self.onesecond.start(3500)  # 延迟3.5秒回到主页
         else:
             self.FACEIMG.setText("人脸认证失败")
             self.FACETIP.setText("")
-            self.onesecond.start(3000)  # 延迟1.5秒回到主页
+            self.onesecond.start(3500)  # 延迟3.5秒回到主页
 
 
 def show(code):  # 使用下一句把图像显示出来
@@ -579,14 +572,11 @@ def QRCoder(ACCESS_TOKEN):
                 db2 = MySQLdb.connect(DBIP, DBID, DBPWD, DBNAME, charset='utf8')
                 cursor = db2.cursor()
                 global SHEBEIID
-                # sql = "CALL CHECKRANDOM('" + SHEBEIID + "','" + checkRANDOM + "');"
-
                 cursor.callproc('CHECKRANDOM', args=(SHEBEIID, checkRANDOM))
                 # 提交到数据库执行
                 results = cursor.fetchall()
                 cursor.execute("select @_CHECKRANDOM_0")
                 res2 = cursor.fetchall()
-                # results = list(cursor.fetchall())
                 # 关闭数据库连接
                 db2.commit()
                 db2.close()
