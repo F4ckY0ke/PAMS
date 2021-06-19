@@ -79,7 +79,6 @@ $(document).ready(function() {//加载页面处理
 		
 		"columns": [//指定列数据
 			{ "data": "USER" },
-			{ "data": "PASSWORD" },
 			{ "data": "MODE" },
 			{ "data": "TEL" },
 			{ "data": "NAME" },
@@ -156,7 +155,6 @@ $.fn.dataTable.defaults.oLanguage = {
             <thead>
       <tr>
         <th align="center" valign="middle" class="borderright">用户名</th>
-        <th align="center" valign="middle" class="borderright">密码</th>
         <th align="center" valign="middle" class="borderright">权限</th>
         <th align="center" valign="middle" class="borderright">联系方式</th>
         <th align="center" valign="middle" class="borderright">名字</th>

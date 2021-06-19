@@ -162,29 +162,18 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
   return temp;
 }
 
-
 function ss(){
 	var arr=[];
 	var json = {};
 	var a=	document.querySelectorAll(".layui-upload-img");
-
 	for(let i in a){
-//   	console.log(i);
-//   	console.log(i.src);
           json[i]=a[i].src;
    	};
-//   	cnosole.log()
-//	console.log(arr);
-//	for(var i=0;i<arr.length;i++){
-//		console.log(a[i]);
-//		json[i]=a[i];
-//	};
 	var jss = JSON.stringify(json);
 	var utext = document.getElementById("facename");
 	var text = utext.value;
 	
  	post('pushaddface.php', {cm1:jss,cm2:text});
-
 }
 
   

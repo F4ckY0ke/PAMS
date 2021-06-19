@@ -27,6 +27,11 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 <link href="../css/css.css" type="text/css" rel="stylesheet" />
 <link href="../css/main.css" type="text/css" rel="stylesheet" />
 <link rel="shortcut icon" href="../images/main/favicon.ico" />
+<!-- Bootstrap -->
+<link rel="stylesheet" href="../bootstrap/bootstrap.min.css">  
+<script src="../bootstrap/jquery.min.js"></script>
+<script src="../bootstrap/bootstrap.min.js"></script>
+
 <style>
 body{overflow-x:hidden; background:#f2f0f5; padding:15px 0px 10px 5px;}
 #searchmain{ font-size:12px;}
@@ -126,8 +131,8 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="right" valign="middle" class="borderright borderbottom bggray">&nbsp;</td>
         <td align="left" valign="middle" class="borderright borderbottom main-for">
-        <input name="" type="submit" value="提交" class="text-but">
-        <input name="" type="reset" value="重置" class="text-but"></td>
+        <input name="" type="submit" value="提交" class="btn btn-primary">
+        <input name="" type="reset" value="重置" class="btn btn-default"></td>
         </tr>
     </table>
     </form>
